@@ -1,0 +1,89 @@
+// 1. Assignment Entity (entity/Assignment.java)
+package com.yourname.gradestracker.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@Table(name = "assignments")
+public class Assignment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Assignment name is required")
+    @Column(nullable = false)
+    private String name;
+
+    private String description;
+
+    @NotNull(message = "Assignment type is required")
+    @Enumerated(EnumType.STRING)
+    private AssignmentType type;
+
+    @NotNull(message = "Due date is required")
+    @Column(name = "due_date")
+    private LocalDate dueDate;
+
+    @Positive(message = "Total points must be positive")
+    @Column(name = "total_points")
+    private Double totalPoints;
+
+    @Column(name = "weight_percentage")
+    private Double weightPercentage; // For weighted grading
+
+    // Many assignments belong to one course
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    // One assignment can have many grades (from different students)
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Grade> grades;
+
+    // Constructors
+    public Assignment() {}
+
+    public Assignment(String name, String description, AssignmentType type,
+                      LocalDate dueDate, Double totalPoints, Course course) {
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.dueDate = dueDate;
+        this.totalPoints = totalPoints;
+        this.course = course;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public AssignmentType getType() { return type; }
+    public void setType(AssignmentType type) { this.type = type; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+
+    public Double getTotalPoints() { return totalPoints; }
+    public void setTotalPoints(Double totalPoints) { this.totalPoints = totalPoints; }
+
+    public Double getWeightPercentage() { return weightPercentage; }
+    public void setWeightPercentage(Double weightPercentage) { this.weightPercentage = weightPercentage; }
+
+    public Course getCourse() { return course; }
+    public void setCourse(Course course) { this.course = course; }
+
+    public List<Grade> getGrades() { return grades; }
+    public void setGrades(List<Grade> grades) { this.grades = grades; }
+}
