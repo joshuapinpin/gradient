@@ -1,12 +1,12 @@
 // 1. Assignment Entity (entity/Assignment.java)
 package com.gradient.gradetracker.model;
 
+import com.gradient.gradetracker.model.enums.AssignmentType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "assignments")
@@ -30,10 +30,6 @@ public class Assignment {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
-    @Positive(message = "Total points must be positive")
-    @Column(name = "total_points")
-    private Double totalPoints;
-
     @Column(name = "weight_percentage")
     private Double weightPercentage; // For weighted grading
 
@@ -49,12 +45,11 @@ public class Assignment {
     public Assignment() {}
 
     public Assignment(String name, String description, AssignmentType type,
-                      LocalDate dueDate, Double totalPoints, Course course) {
+                      LocalDate dueDate, Course course) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.dueDate = dueDate;
-        this.totalPoints = totalPoints;
         this.course = course;
     }
 
@@ -73,9 +68,6 @@ public class Assignment {
 
     public LocalDate getDueDate() { return dueDate; }
     public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
-
-    public Double getTotalPoints() { return totalPoints; }
-    public void setTotalPoints(Double totalPoints) { this.totalPoints = totalPoints; }
 
     public Double getWeightPercentage() { return weightPercentage; }
     public void setWeightPercentage(Double weightPercentage) { this.weightPercentage = weightPercentage; }
