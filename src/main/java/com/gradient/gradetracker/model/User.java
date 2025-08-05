@@ -14,7 +14,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<AcademicYear> academicYears;
+    private List<Term> terms;
 
     public User() {}
 

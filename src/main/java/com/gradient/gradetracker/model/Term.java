@@ -5,7 +5,7 @@ import java.util.*;
 import java.time.LocalDate;
 
 @Entity
-public class AcademicYear {
+public class Term {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,10 @@ public class AcademicYear {
     @OneToMany(mappedBy = "academicYear", cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 
-    public AcademicYear() {
+    public Term() {
     }
 
-    public AcademicYear(String name, LocalDate startDate, LocalDate endDate, User user) {
+    public Term(String name, LocalDate startDate, LocalDate endDate, User user) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
