@@ -1,5 +1,5 @@
 // 1. Assignment Entity (entity/Assignment.java)
-package com.yourname.gradestracker.entity;
+package com.gradient.gradetracker.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -42,9 +42,8 @@ public class Assignment {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    // One assignment can have many grades (from different students)
-    @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Grade> grades;
+    @OneToOne(mappedBy = "assignment", cascade = CascadeType.ALL)
+    private Grade grade;
 
     // Constructors
     public Assignment() {}
@@ -84,6 +83,6 @@ public class Assignment {
     public Course getCourse() { return course; }
     public void setCourse(Course course) { this.course = course; }
 
-    public List<Grade> getGrades() { return grades; }
-    public void setGrades(List<Grade> grades) { this.grades = grades; }
+    public Grade getGrade() { return grade; }
+    public void setGrade(Grade grade) { this.grade = grade; }
 }

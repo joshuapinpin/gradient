@@ -27,5 +27,9 @@ public class Grade {
         this.course = course;
     }
 
+    @OneToOne
+    @JoinColumn(name = "assignment_id")
+    private Assignment assignment;
+
     // Getters & setters...
 }
