@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Student {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +14,11 @@ public class Student {
     private String email;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Grade> grades;
+    private List<AcademicYear> academicYears;
 
-    public Student() {}
+    public User() {}
 
-    public Student(String name, String email) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
