@@ -13,7 +13,7 @@ public class Grade {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    private User user;
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -21,9 +21,9 @@ public class Grade {
 
     public Grade() {}
 
-    public Grade(double score, User user, Course course) {
+    public Grade(double score, Student student, Course course) {
         this.score = score;
-        this.user = user;
+        this.student = student;
         this.course = course;
     }
 
