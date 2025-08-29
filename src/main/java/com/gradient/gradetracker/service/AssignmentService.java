@@ -13,6 +13,9 @@ import com.gradient.gradetracker.repository.AssignmentRepository;
 public class AssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepository;
+    public AssignmentService(AssignmentRepository repo){
+        this.assignmentRepository = repo;
+    }
 
     public List<Assignment> getAllAssignments() {
         return assignmentRepository.findAll();
