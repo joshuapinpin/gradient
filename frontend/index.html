@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradeTracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>GradeTracker</h1>
+        <nav>
+            <button onclick="showSection('grade')">Grade Tracker</button>
+            <button onclick="showSection('assignment')">Assignment Tracker</button>
+            <button onclick="showSection('lecture')">Lecture Tracker</button>
+        </nav>
+    </header>
+    <main>
+        <section id="grade" class="tracker-section">
+            <h2>Grade Tracker</h2>
+            <div class="term-list">
+                <!-- Terms will be listed here -->
+            </div>
+            <button onclick="addTerm()">Add Term</button>
+        </section>
+        <section id="assignment" class="tracker-section" style="display:none;">
+            <h2>Assignment Tracker</h2>
+            <div class="assignment-list">
+                <!-- Assignments will be listed here -->
+            </div>
+            <button onclick="addAssignment()">Add Assignment</button>
+        </section>
+        <section id="lecture" class="tracker-section" style="display:none;">
+            <h2>Lecture Tracker</h2>
+            <div class="lecture-list">
+                <!-- Lectures will be listed here -->
+            </div>
+            <button onclick="addLecture()">Add Lecture</button>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
