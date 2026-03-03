@@ -16,7 +16,7 @@ public class AssignmentResponse {
     private LocalDateTime dueDate;
     private AssignmentType assignmentType;
     private boolean graded;
-    
+
     public void setScore(BigDecimal score) {
         this.score = score;
         this.graded = (score != null);
