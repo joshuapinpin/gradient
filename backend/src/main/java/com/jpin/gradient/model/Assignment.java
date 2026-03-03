@@ -21,19 +21,18 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 200)
     private String title;
 
-    /** TO:DO - consider using an enum for assignment types (e.g., Homework, Quiz, Exam) */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 40)
-    private String assignmentType;
+    private AssignmentType assignmentType;
 
     // doesn't have to null as it may be empty at first
     private LocalDateTime dueDate;
 
     @NotNull
-    @DecimalMin(value = "0.0", inclusive = true, message = "Grade must be a non-negative number")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Grade must be a non-negative number")
     @DecimalMax(value = "100.0", inclusive = true, message = "Grade must be less than or equal to 100")
     @Digits(integer = 3, fraction = 2, message = "Grade can have at most 3 digits and 2 decimal places")
     @Column(nullable = false, precision = 5, scale = 2)
