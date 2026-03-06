@@ -1,6 +1,6 @@
-package com.jpin.gradient.dto;
+package com.jpin.gradient.assignment.dto;
 
-import com.jpin.gradient.model.AssignmentType;
+import com.jpin.gradient.assignment.AssignmentType;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;

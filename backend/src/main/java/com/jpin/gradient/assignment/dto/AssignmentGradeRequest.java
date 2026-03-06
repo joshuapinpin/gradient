@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto;
+package com.jpin.gradient.assignment.dto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -14,5 +14,5 @@ public class AssignmentGradeRequest {
     @DecimalMin(value = "0.0", inclusive = true)
     @DecimalMax(value = "100.0", inclusive = true)
     @Digits(integer = 3, fraction = 2)
-    private BigDecimal score;
+    private BigDecimal grade;
 }

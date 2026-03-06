@@ -1,15 +1,12 @@
-package com.jpin.gradient.service;
+package com.jpin.gradient.assignment;
 
-import com.jpin.gradient.dto.AssignmentCreateRequest;
-import com.jpin.gradient.dto.AssignmentGradeRequest;
-import com.jpin.gradient.dto.AssignmentResponse;
-import com.jpin.gradient.dto.AssignmentUpdateRequest;
-import com.jpin.gradient.model.Assignment;
-import org.springframework.stereotype.Service;
+import com.jpin.gradient.assignment.dto.AssignmentCreateRequest;
+import com.jpin.gradient.assignment.dto.AssignmentGradeRequest;
+import com.jpin.gradient.assignment.dto.AssignmentResponse;
+import com.jpin.gradient.assignment.dto.AssignmentUpdateRequest;
 
 import java.util.List;
 
-@Service
 public interface AssignmentService {
     AssignmentResponse create(AssignmentCreateRequest request);
     AssignmentResponse getById(Long id);
