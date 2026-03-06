@@ -8,7 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class AssignmentGradeRequest {
+public class AssessmentGradeRequest {
 
     // nullable allowed; when present must be [0, 100]
     @DecimalMin(value = "0.0", inclusive = true)

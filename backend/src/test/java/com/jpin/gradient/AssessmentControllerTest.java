@@ -15,25 +15,25 @@ import com.jayway.jsonpath.JsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AssignmentControllerTest {
+public class AssessmentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    private String validAssignmentJson() {
+    private String validAssessmentJson() {
         return """
         {
             "name": "Homework 1",
-            "assignmentType": "HOMEWORK",
+            "assessmentType": "HOMEWORK",
             "weight": 20.0
         }
         """;
     }
 
-    private String validAssignmentResponse() throws Exception {
-        return mockMvc.perform(post("/api/assignments")
+    private String validAssessmentResponse() throws Exception {
+        return mockMvc.perform(post("/api/assessments")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(validAssignmentJson()))
+                .content(validAssessmentJson()))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
@@ -41,22 +41,22 @@ public class AssignmentControllerTest {
     }
 
     @Test
-    void createAssignment() throws Exception {
+    void createAssessment() throws Exception {
         String json = """
         {
             "name": "Midterm",
-            "assignmentType": "EXAM",
+            "assessmentType": "EXAM",
             "weight": 30.0
         }
         """;
 
-        mockMvc.perform(post("/api/assignments")
+        mockMvc.perform(post("/api/assessments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Midterm"))
-                .andExpect(jsonPath("$.assignmentType").value("EXAM"))
+                .andExpect(jsonPath("$.assessmentType").value("EXAM"))
                 .andExpect(jsonPath("$.weight").value(30.0))
                 .andExpect(jsonPath("$.grade").isEmpty())
                 .andExpect(jsonPath("$.dueDate").isEmpty())
@@ -64,81 +64,81 @@ public class AssignmentControllerTest {
     }
 
     @Test
-    void createAssignment_InvalidWeight() throws Exception {
+    void createAssessment_InvalidWeight() throws Exception {
         String json = """
         {
             "name": "Final",
-            "assignmentType": "EXAM",
+            "assessmentType": "EXAM",
             "weight": 150.0
         }
         """;
 
-        mockMvc.perform(post("/api/assignments")
+        mockMvc.perform(post("/api/assessments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void createAssignment_MissingName() throws Exception {
+    void createAssessment_MissingName() throws Exception {
         String json = """
         {
-            "assignmentType": "EXAM",
+            "assessmentType": "EXAM",
             "weight": 20.0
         }
         """;
 
-        mockMvc.perform(post("/api/assignments")
+        mockMvc.perform(post("/api/assessments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void gradeAssignment() throws Exception {
+    void gradeAssessment() throws Exception {
         String json = """
         {
             "grade": 85.5
         }
         """;
 
-        String createResponse = validAssignmentResponse();
+        String createResponse = validAssessmentResponse();
 
-        Number assignmentIdNumber = JsonPath.read(createResponse, "$.id");
-        long assignmentId = assignmentIdNumber.longValue();
+        Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
+        long assessmentId = assessmentIdNumber.longValue();
 
-        mockMvc.perform(post("/api/assignments/{id}/grade", assignmentId)
+        mockMvc.perform(post("/api/assessments/{id}/grade", assessmentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(assignmentId))
+                .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.grade").value(85.5))
                 .andExpect(jsonPath("$.graded").value(true));
     }
 
     @Test
-    void updateAssignment() throws Exception {
-        String createResponse = validAssignmentResponse();
+    void updateAssessment() throws Exception {
+        String createResponse = validAssessmentResponse();
 
-        Number assignmentIdNumber = JsonPath.read(createResponse, "$.id");
-        long assignmentId = assignmentIdNumber.longValue();
+        Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
+        long assessmentId = assessmentIdNumber.longValue();
 
         String updateJson = """
         {
             "name": "Homework 1",
-            "assignmentType": "QUIZ",
+            "assessmentType": "QUIZ",
             "weight": 25.0,
             "dueDate": "2026-03-20T23:59:00"
         }
         """;
 
-        mockMvc.perform(put("/api/assignments/{id}", assignmentId)
+        mockMvc.perform(put("/api/assessments/{id}", assessmentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updateJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(assignmentId))
+                .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.name").value("Homework 1"))
-                .andExpect(jsonPath("$.assignmentType").value("QUIZ"))
+                .andExpect(jsonPath("$.assessmentType").value("QUIZ"))
                 .andExpect(jsonPath("$.weight").value(25.0))
                 .andExpect(jsonPath("$.dueDate").value("2026-03-20T23:59:00"))
                 .andExpect(jsonPath("$.grade").isEmpty())
@@ -146,11 +146,11 @@ public class AssignmentControllerTest {
     }
 
     @Test
-    void updateAssignment_changeGrade() throws Exception{
-        String createResponse = validAssignmentResponse();
+    void updateAssessment_changeGrade() throws Exception{
+        String createResponse = validAssessmentResponse();
 
-        Number assignmentIdNumber = JsonPath.read(createResponse, "$.id");
-        long assignmentId = assignmentIdNumber.longValue();
+        Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
+        long assessmentId = assessmentIdNumber.longValue();
 
         String gradeJson = """
         {
@@ -158,13 +158,13 @@ public class AssignmentControllerTest {
         }
         """;
 
-        mockMvc.perform(post("/api/assignments/{id}/grade", assignmentId)
+        mockMvc.perform(post("/api/assessments/{id}/grade", assessmentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gradeJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(assignmentId))
+                .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.name").value("Homework 1"))      // unchanged
-                .andExpect(jsonPath("$.assignmentType").value("HOMEWORK")) // unchanged
+                .andExpect(jsonPath("$.assessmentType").value("HOMEWORK")) // unchanged
                 .andExpect(jsonPath("$.weight").value(20.0))            // unchanged
                 .andExpect(jsonPath("$.grade").value(92.0))             // changed
                 .andExpect(jsonPath("$.graded").value(true));

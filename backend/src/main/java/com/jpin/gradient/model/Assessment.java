@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Assignment {
+public class Assessment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +32,7 @@ public class Assignment {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 40)
-    private AssignmentType assignmentType;
+    private AssessmentType assessmentType;
 
     // can be a null as it may be empty at first
     private LocalDateTime dueDate;

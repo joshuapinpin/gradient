@@ -25,7 +25,7 @@ Track and analyze academic performance across courses and terms.
 - **Assignment Grade Tracking**
   - Individual assignments with grades and weights
   - Example: Test 1, Project 2, Final Exam
-  - Weight validation: All assignment weights must sum to 100% per course
+  - Weight validation: All assessment weights must sum to 100% per course
 
 - **Performance Analytics**
   - Calculate current course averages
@@ -34,7 +34,7 @@ Track and analyze academic performance across courses and terms.
 
 ### 2. Assignment/Deadline Tracking System
 
-Manage assignment lifecycle from creation to completion.
+Manage assessment lifecycle from creation to completion.
 
 **Tracked Attributes:**
 
@@ -59,7 +59,7 @@ Manage assignment lifecycle from creation to completion.
 
 Both tracking systems utilize shared data objects to maintain consistency:
 
-- A single assignment object serves both the grade tracker and deadline tracker
+- A single assessment object serves both the grade tracker and deadline tracker
 - Changes in one system reflect in the other
 - Unified course and term structure across features
 

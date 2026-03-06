@@ -1,8 +1,8 @@
 package com.jpin.gradient.repository;
 
-import com.jpin.gradient.model.Assignment;
+import com.jpin.gradient.model.Assessment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
+public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
     // No Extra Methods Required for Basic CRUD
 }
