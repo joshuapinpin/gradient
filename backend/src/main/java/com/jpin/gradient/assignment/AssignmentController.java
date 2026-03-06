@@ -1,5 +1,9 @@
 package com.jpin.gradient.assignment;
 
+import com.jpin.gradient.assignment.dto.AssignmentCreateRequest;
+import com.jpin.gradient.assignment.dto.AssignmentGradeRequest;
+import com.jpin.gradient.assignment.dto.AssignmentResponse;
+import com.jpin.gradient.assignment.dto.AssignmentUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +43,7 @@ public class AssignmentController {
         return assignmentService.update(id, request);
     }
 
-    @PostMapping("/{id}/score")
+    @PostMapping("/{id}/grade")
     public AssignmentResponse grade(
             @PathVariable Long id,
             @Valid @RequestBody AssignmentGradeRequest request){

@@ -28,13 +28,13 @@ public class Assignment {
     private Long id;
 
     @Column(nullable = false, length = 200)
-    private String title;
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 40)
     private AssignmentType assignmentType;
 
-    // doesn't have to null as it may be empty at first
+    // can be a null as it may be empty at first
     private LocalDateTime dueDate;
 
     @NotNull
@@ -48,5 +48,5 @@ public class Assignment {
     @DecimalMax(value = "100.0", inclusive = true)
     @Digits(integer = 3, fraction = 2)
     @Column(precision = 5, scale = 2)
-    private BigDecimal score;
+    private BigDecimal grade;
 }
