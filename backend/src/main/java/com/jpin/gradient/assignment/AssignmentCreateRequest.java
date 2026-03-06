@@ -1,14 +1,14 @@
-package com.jpin.gradient.dto;
-
-import com.jpin.gradient.model.AssignmentType;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
-import lombok.Data;
+package com.jpin.gradient.assignment;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Data
 public class AssignmentCreateRequest {

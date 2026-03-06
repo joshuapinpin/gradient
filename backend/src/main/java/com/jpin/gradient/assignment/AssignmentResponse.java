@@ -1,11 +1,9 @@
-package com.jpin.gradient.dto;
-
-import com.jpin.gradient.model.AssignmentType;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+package com.jpin.gradient.assignment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 
 @Data
 public class AssignmentResponse {

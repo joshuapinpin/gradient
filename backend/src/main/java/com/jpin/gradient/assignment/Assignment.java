@@ -1,6 +1,15 @@
-package com.jpin.gradient.model;
+package com.jpin.gradient.assignment;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -8,9 +17,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -32,9 +38,9 @@ public class Assignment {
     private LocalDateTime dueDate;
 
     @NotNull
-    @DecimalMin(value = "0.0", inclusive = false, message = "Grade must be a non-negative number")
-    @DecimalMax(value = "100.0", inclusive = true, message = "Grade must be less than or equal to 100")
-    @Digits(integer = 3, fraction = 2, message = "Grade can have at most 3 digits and 2 decimal places")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Weight must be greater than 0")
+    @DecimalMax(value = "100.0", inclusive = true, message = "Weight must be less than or equal to 100")
+    @Digits(integer = 3, fraction = 2, message = "Weight can have at most 3 digits and 2 decimal places")
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal weight;
 

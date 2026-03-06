@@ -1,10 +1,5 @@
-package com.jpin.gradient.controller;
+package com.jpin.gradient.assignment;
 
-import com.jpin.gradient.dto.AssignmentCreateRequest;
-import com.jpin.gradient.dto.AssignmentGradeRequest;
-import com.jpin.gradient.dto.AssignmentResponse;
-import com.jpin.gradient.dto.AssignmentUpdateRequest;
-import com.jpin.gradient.service.AssignmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
