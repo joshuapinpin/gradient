@@ -1,9 +1,9 @@
-package com.jpin.gradient.assignment.dto;
+package com.jpin.gradient.dto.assessment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.jpin.gradient.assignment.AssignmentType;
+import com.jpin.gradient.model.AssignmentType;
 import lombok.Data;
 
 @Data

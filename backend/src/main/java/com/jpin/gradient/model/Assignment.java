@@ -1,4 +1,4 @@
-package com.jpin.gradient.assignment;
+package com.jpin.gradient.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

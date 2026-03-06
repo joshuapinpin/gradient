@@ -1,5 +1,6 @@
-package com.jpin.gradient.assignment;
+package com.jpin.gradient.repository;
 
+import com.jpin.gradient.model.Assignment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
