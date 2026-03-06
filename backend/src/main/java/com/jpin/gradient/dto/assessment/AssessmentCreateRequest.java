@@ -1,8 +1,8 @@
-package com.jpin.gradient.assignment.dto;
+package com.jpin.gradient.dto.assessment;
 
 import java.math.BigDecimal;
 
-import com.jpin.gradient.assignment.AssignmentType;
+import com.jpin.gradient.model.AssessmentType;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -12,14 +12,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class AssignmentCreateRequest {
+public class AssessmentCreateRequest {
 
     @NotBlank
     @Size(max = 200)
     private String name;
 
     @NotNull
-    private AssignmentType assignmentType;
+    private AssessmentType assessmentType;
 
     @NotNull
     @DecimalMin(value = "0.0", inclusive = false)

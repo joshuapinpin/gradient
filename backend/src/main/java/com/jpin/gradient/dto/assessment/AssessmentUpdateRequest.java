@@ -1,6 +1,6 @@
-package com.jpin.gradient.assignment.dto;
+package com.jpin.gradient.dto.assessment;
 
-import com.jpin.gradient.assignment.AssignmentType;
+import com.jpin.gradient.model.AssessmentType;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class AssignmentUpdateRequest {
+public class AssessmentUpdateRequest {
 
     @Size(max = 200)
     private String name;
@@ -24,6 +24,6 @@ public class AssignmentUpdateRequest {
 
     private LocalDateTime dueDate;
 
-    private AssignmentType assignmentType;
+    private AssessmentType assessmentType;
 
 }
