@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class AssessmentUpdateRequest {
 
-    @Size(max = 200)
+    @Size(max = 50)
     private String name;
 
     // optional update; if provided must still be (0, 100]
@@ -25,5 +25,7 @@ public class AssessmentUpdateRequest {
     private LocalDateTime dueDate;
 
     private AssessmentType assessmentType;
+
+    private Long courseId;
 
 }

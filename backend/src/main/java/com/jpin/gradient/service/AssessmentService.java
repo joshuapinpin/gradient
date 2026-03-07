@@ -8,10 +8,10 @@ import com.jpin.gradient.dto.assessment.AssessmentUpdateRequest;
 import java.util.List;
 
 public interface AssessmentService {
-    AssessmentResponse create(AssessmentCreateRequest request);
-    AssessmentResponse getById(Long id);
-    List<AssessmentResponse> list();
-    AssessmentResponse update(Long id, AssessmentUpdateRequest request);
-    AssessmentResponse grade(Long id, AssessmentGradeRequest request);
-    void delete(Long id);
+    AssessmentResponse createAssessment(AssessmentCreateRequest request);
+    AssessmentResponse getAssessmentById(Long id);
+    List<AssessmentResponse> getAssessments();
+    AssessmentResponse updateAssessment(Long id, AssessmentUpdateRequest request);
+    AssessmentResponse gradeAssessment(Long id, AssessmentGradeRequest request);
+    void deleteAssessment(Long id);
 }

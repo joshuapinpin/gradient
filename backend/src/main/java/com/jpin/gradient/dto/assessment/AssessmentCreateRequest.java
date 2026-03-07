@@ -15,7 +15,7 @@ import lombok.Data;
 public class AssessmentCreateRequest {
 
     @NotBlank
-    @Size(max = 200)
+    @Size(max = 50)
     private String name;
 
     @NotNull
@@ -26,5 +26,8 @@ public class AssessmentCreateRequest {
     @DecimalMax(value = "100.0", inclusive = true)
     @Digits(integer = 3, fraction = 2)
     private BigDecimal weight;
+
+    @NotNull
+    private Long courseId;
 
 }

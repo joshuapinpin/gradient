@@ -1,9 +1,13 @@
 package com.jpin.gradient;
 
+import com.jpin.gradient.model.Course;
+import com.jpin.gradient.repository.CourseRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,14 +24,32 @@ public class AssessmentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
+    private Long courseId;
+
+    @BeforeEach
+    void setUp() {
+        Course course = new Course();
+        course.setName("Test Course");
+        courseId = courseRepository.save(course).getId();
+    }
+
+    @AfterEach
+    void tearDown() {
+        courseRepository.deleteAll();
+    }
+
     private String validAssessmentJson() {
         return """
         {
             "name": "Homework 1",
             "assessmentType": "HOMEWORK",
-            "weight": 20.0
+            "weight": 20.0,
+            "courseId": %d
         }
-        """;
+        """.formatted(courseId);
     }
 
     private String validAssessmentResponse() throws Exception {
@@ -42,22 +64,14 @@ public class AssessmentControllerTest {
 
     @Test
     void createAssessment() throws Exception {
-        String json = """
-        {
-            "name": "Midterm",
-            "assessmentType": "EXAM",
-            "weight": 30.0
-        }
-        """;
-
         mockMvc.perform(post("/api/assessments")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                .content(validAssessmentJson()))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("Midterm"))
-                .andExpect(jsonPath("$.assessmentType").value("EXAM"))
-                .andExpect(jsonPath("$.weight").value(30.0))
+                .andExpect(jsonPath("$.name").value("Homework 1"))
+                .andExpect(jsonPath("$.assessmentType").value("HOMEWORK"))
+                .andExpect(jsonPath("$.weight").value(20.0))
                 .andExpect(jsonPath("$.grade").isEmpty())
                 .andExpect(jsonPath("$.dueDate").isEmpty())
                 .andExpect(jsonPath("$.graded").value(false));

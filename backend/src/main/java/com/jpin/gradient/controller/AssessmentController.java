@@ -24,36 +24,36 @@ public class AssessmentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AssessmentResponse create(@Valid @RequestBody AssessmentCreateRequest request){
-        return assessmentService.create(request);
+        return assessmentService.createAssessment(request);
     }
 
     @GetMapping("/{id}")
     public AssessmentResponse getById(@PathVariable Long id) {
-        return assessmentService.getById(id);
+        return assessmentService.getAssessmentById(id);
     }
 
     @GetMapping
     public List<AssessmentResponse> list(){
-        return assessmentService.list();
+        return assessmentService.getAssessments();
     }
 
     @PutMapping("/{id}")
     public AssessmentResponse update(
             @PathVariable Long id,
             @Valid @RequestBody AssessmentUpdateRequest request){
-        return assessmentService.update(id, request);
+        return assessmentService.updateAssessment(id, request);
     }
 
     @PostMapping("/{id}/grade")
     public AssessmentResponse grade(
             @PathVariable Long id,
             @Valid @RequestBody AssessmentGradeRequest request){
-        return assessmentService.grade(id, request);
+        return assessmentService.gradeAssessment(id, request);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        assessmentService.delete(id);
+        assessmentService.deleteAssessment(id);
     }
 }
