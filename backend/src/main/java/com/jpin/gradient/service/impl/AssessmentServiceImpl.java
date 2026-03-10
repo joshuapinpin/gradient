@@ -1,4 +1,4 @@
-package com.jpin.gradient.service;
+package com.jpin.gradient.service.impl;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.jpin.gradient.dto.assessment.AssessmentGradeRequest;
 import com.jpin.gradient.dto.assessment.AssessmentResponse;
 import com.jpin.gradient.dto.assessment.AssessmentUpdateRequest;
 import com.jpin.gradient.repository.CourseRepository;
+import com.jpin.gradient.service.AssessmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
