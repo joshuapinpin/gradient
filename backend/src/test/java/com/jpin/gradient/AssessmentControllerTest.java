@@ -100,6 +100,22 @@ public class AssessmentControllerTest {
     }
 
     @Test
+    void test_createAssessment_emptyName() throws Exception{
+        String json = """
+        {
+            "name": "",
+            "assessmentType": "EXAM",
+            "weight": 20.0
+        }
+        """;
+
+        mockMvc.perform(post("/api/assessments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void test_createAssessment_MissingName() throws Exception {
         String json = """
         {
