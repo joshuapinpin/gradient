@@ -1,6 +1,7 @@
 package com.jpin.gradient;
 
 import com.jpin.gradient.model.Course;
+import com.jpin.gradient.repository.AssessmentRepository;
 import com.jpin.gradient.repository.CourseRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ public class AssessmentControllerTest {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private AssessmentRepository assessmentRepository;
+
     private Long courseId;
 
     @BeforeEach
@@ -38,6 +42,7 @@ public class AssessmentControllerTest {
 
     @AfterEach
     void tearDown() {
+        assessmentRepository.deleteAll();
         courseRepository.deleteAll();
     }
 
