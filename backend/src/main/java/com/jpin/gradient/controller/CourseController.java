@@ -56,4 +56,10 @@ public class CourseController {
     public void delete(@PathVariable Long id) {
         courseService.deleteCourse(id);
     }
+
+    @DeleteMapping("/{courseId}/assessments/{assessmentId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeAssessmentFromCourse(@PathVariable Long courseId, @PathVariable Long assessmentId) {
+        courseService.removeAssessmentFromCourse(courseId, assessmentId);
+    }
 }

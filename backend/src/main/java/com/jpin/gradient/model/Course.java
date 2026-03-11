@@ -25,4 +25,20 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // to avoid circular reference
     private Set<Assessment> assessments;
+
+    /**
+     * Adds an assessment to this course and sets the course on the assessment.
+     */
+    public void addAssessment(Assessment assessment) {
+        assessments.add(assessment);
+        assessment.setCourse(this);
+    }
+
+    /**
+     * Removes an assessment from this course and unsets the course on the assessment.
+     */
+    public void removeAssessment(Assessment assessment) {
+        assessments.remove(assessment);
+        assessment.setCourse(null);
+    }
 }
