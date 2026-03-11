@@ -6,5 +6,4 @@ import com.jpin.gradient.model.Assessment;
 
 public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
     long countByCourseId(Long courseId);
-    void deleteByCourseId(Long courseId);
 }
