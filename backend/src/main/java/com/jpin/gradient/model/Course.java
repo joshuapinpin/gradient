@@ -1,6 +1,7 @@
 package com.jpin.gradient.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -18,6 +19,7 @@ public class Course {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @NotNull
     @Column(nullable = false, length = 50)
     private String name;
 

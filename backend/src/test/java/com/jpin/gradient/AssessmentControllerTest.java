@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,8 +60,8 @@ public class AssessmentControllerTest {
 
     private String validAssessmentResponse() throws Exception {
         return mockMvc.perform(post("/api/assessments")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(validAssessmentJson()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validAssessmentJson()))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
@@ -68,10 +69,10 @@ public class AssessmentControllerTest {
     }
 
     @Test
-    void createAssessment() throws Exception {
+    void test_createAssessment() throws Exception {
         mockMvc.perform(post("/api/assessments")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(validAssessmentJson()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(validAssessmentJson()))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Homework 1"))
@@ -83,7 +84,7 @@ public class AssessmentControllerTest {
     }
 
     @Test
-    void createAssessment_InvalidWeight() throws Exception {
+    void test_createAssessment_InvalidWeight() throws Exception {
         String json = """
         {
             "name": "Final",
@@ -93,13 +94,13 @@ public class AssessmentControllerTest {
         """;
 
         mockMvc.perform(post("/api/assessments")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void createAssessment_MissingName() throws Exception {
+    void test_createAssessment_MissingName() throws Exception {
         String json = """
         {
             "assessmentType": "EXAM",
@@ -108,13 +109,13 @@ public class AssessmentControllerTest {
         """;
 
         mockMvc.perform(post("/api/assessments")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    void gradeAssessment() throws Exception {
+    void test_gradeAssessment() throws Exception {
         String json = """
         {
             "grade": 85.5
@@ -127,8 +128,8 @@ public class AssessmentControllerTest {
         long assessmentId = assessmentIdNumber.longValue();
 
         mockMvc.perform(post("/api/assessments/{id}/grade", assessmentId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.grade").value(85.5))
@@ -136,7 +137,7 @@ public class AssessmentControllerTest {
     }
 
     @Test
-    void updateAssessment() throws Exception {
+    void test_updateAssessment() throws Exception {
         String createResponse = validAssessmentResponse();
 
         Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
@@ -152,8 +153,8 @@ public class AssessmentControllerTest {
         """;
 
         mockMvc.perform(put("/api/assessments/{id}", assessmentId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(updateJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.name").value("Homework 1"))
@@ -165,7 +166,7 @@ public class AssessmentControllerTest {
     }
 
     @Test
-    void updateAssessment_changeGrade() throws Exception{
+    void test_updateAssessment_changeGrade() throws Exception{
         String createResponse = validAssessmentResponse();
 
         Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
@@ -178,8 +179,8 @@ public class AssessmentControllerTest {
         """;
 
         mockMvc.perform(post("/api/assessments/{id}/grade", assessmentId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gradeJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gradeJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(assessmentId))
                 .andExpect(jsonPath("$.name").value("Homework 1"))      // unchanged
@@ -187,6 +188,32 @@ public class AssessmentControllerTest {
                 .andExpect(jsonPath("$.weight").value(20.0))            // unchanged
                 .andExpect(jsonPath("$.grade").value(92.0))             // changed
                 .andExpect(jsonPath("$.graded").value(true));
+    }
+
+    @Test
+    void test_removeAssessmentFromCourse_deletesAssessment() throws Exception {
+        // Create assessment
+        String createResponse = validAssessmentResponse();
+        Number assessmentIdNumber = JsonPath.read(createResponse, "$.id");
+        long assessmentId = assessmentIdNumber.longValue();
+
+        // Confirm assessment exists
+        assert assessmentRepository.findById(assessmentId).isPresent();
+
+        // Delete assessment via course endpoint
+        mockMvc.perform(delete("/api/courses/{courseId}/assessments/{assessmentId}",
+                        courseId, assessmentId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        // Confirm assessment is deleted
+        assert assessmentRepository.findById(assessmentId).isEmpty();
+
+        // Confirm no assessments remain for the course
+        assert assessmentRepository.countByCourseId(courseId) == 0;
+
+        // Confirm course still exists
+        assert courseRepository.findById(courseId).isPresent();
     }
 
 }
