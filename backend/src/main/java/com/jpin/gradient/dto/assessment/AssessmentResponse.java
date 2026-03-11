@@ -14,6 +14,7 @@ public class AssessmentResponse {
     private BigDecimal grade; // nullable
     private LocalDateTime dueDate;
     private AssessmentType assessmentType;
+    private Long courseId;
     private boolean graded;
 
     public void setGrade(BigDecimal grade) {
