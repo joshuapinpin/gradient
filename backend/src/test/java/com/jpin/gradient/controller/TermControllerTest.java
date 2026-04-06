@@ -1,6 +1,7 @@
 package com.jpin.gradient.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jpin.gradient.dto.create.TermCreateRequest;
 import com.jpin.gradient.dto.response.TermResponse;
 import com.jpin.gradient.dto.update.TermUpdateRequest;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +37,7 @@ class TermControllerTest {
 
 	@BeforeEach
 	void setup() {
+		objectMapper.registerModule(new JavaTimeModule()); // tells jackson how to handle Java 8 date/time types
 		mockMvc = MockMvcBuilders.standaloneSetup(termController).build();
 	}
 
@@ -60,11 +63,13 @@ class TermControllerTest {
     void createTerm_withDates() throws Exception{
         TermCreateRequest req = new TermCreateRequest();
         req.setName("Fall 2026");
-        req.setStartDate(java.time.LocalDate.of(2026, 9, 1));
-        req.setEndDate(java.time.LocalDate.of(2026, 12, 31));
+        req.setStartDate(LocalDate.of(2026, 9, 1));
+        req.setEndDate(LocalDate.of(2026, 12, 31));
         TermResponse resp = new TermResponse();
         resp.setId(2L);
         resp.setName("Fall 2026");
+		resp.setStartDate(LocalDate.of(2026, 9, 1));
+		resp.setEndDate(LocalDate.of(2026, 12, 31));
         Mockito.when(termService.createTerm(any())).thenReturn(resp);
         mockMvc.perform(post("/api/terms")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,6 +83,18 @@ class TermControllerTest {
     void createTerm_invalidName() throws Exception {
         TermCreateRequest req = new TermCreateRequest();
         // Missing name
+        mockMvc.perform(post("/api/terms")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void createTerm_invalidDates() throws Exception {
+        TermCreateRequest req = new TermCreateRequest();
+        req.setName("Invalid Term");
+        req.setStartDate(LocalDate.of(2026, 12, 31));
+        req.setEndDate(LocalDate.of(2026, 9, 1)); // End date before start date
         mockMvc.perform(post("/api/terms")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(req)))

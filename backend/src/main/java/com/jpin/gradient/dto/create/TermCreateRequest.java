@@ -1,5 +1,6 @@
 package com.jpin.gradient.dto.create;
 
+import com.jpin.gradient.validation.ValidDateRange;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
+@ValidDateRange
 public class TermCreateRequest {
 
     @NotBlank

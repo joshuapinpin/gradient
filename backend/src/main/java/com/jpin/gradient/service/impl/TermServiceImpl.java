@@ -33,6 +33,10 @@ public class TermServiceImpl implements TermService {
         term.setName(request.getName());
         if (request.getStartDate() != null) term.setStartDate(request.getStartDate());
         if (request.getEndDate() != null) term.setEndDate(request.getEndDate());
+        if(request.getStartDate() != null && request.getEndDate() != null
+                && !request.getStartDate().isBefore(request.getEndDate())){
+            throw new IllegalArgumentException("Start date must be before end date");
+        }
 
         term = termRepository.save(term);
         return toResponse(term);
