@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import com.jpin.gradient.exception.ResourceNotFoundException;
+
 @Service
 @Transactional
 public class TermServiceImpl implements TermService {
@@ -33,6 +35,10 @@ public class TermServiceImpl implements TermService {
         term.setName(request.getName());
         if (request.getStartDate() != null) term.setStartDate(request.getStartDate());
         if (request.getEndDate() != null) term.setEndDate(request.getEndDate());
+        if(request.getStartDate() != null && request.getEndDate() != null
+                && !request.getStartDate().isBefore(request.getEndDate())){
+            throw new IllegalArgumentException("Start date must be before end date");
+        }
 
         term = termRepository.save(term);
         return toResponse(term);
@@ -53,6 +59,11 @@ public class TermServiceImpl implements TermService {
     @Override
     public TermResponse updateTerm(Long id, TermUpdateRequest request) {
         Term term = findByIdOrThrow(id);
+
+        if (request.getStartDate() != null && request.getEndDate() != null
+                && !request.getStartDate().isBefore(request.getEndDate())) {
+            throw new IllegalArgumentException("Start date must be before end date");
+        }
 
         if (request.getName() != null) term.setName(request.getName());
         if (request.getStartDate() != null) term.setStartDate(request.getStartDate());
@@ -80,7 +91,7 @@ public class TermServiceImpl implements TermService {
 
     private Term findByIdOrThrow(Long id) {
         return termRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Term not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Term not found with id: " + id));
     }
 
     private TermResponse toResponse(Term term){

@@ -1,5 +1,7 @@
+
 package com.jpin.gradient.dto.update;
 
+import com.jpin.gradient.validation.ValidDateRange;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@ValidDateRange
 public class TermUpdateRequest {
 
     @NotBlank

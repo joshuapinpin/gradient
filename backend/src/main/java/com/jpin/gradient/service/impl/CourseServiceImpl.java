@@ -2,6 +2,8 @@ package com.jpin.gradient.service.impl;
 
 import java.util.List;
 
+import com.jpin.gradient.model.Assessment;
+import com.jpin.gradient.model.Term;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,8 +66,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourse(Long id) {
         Course course = findByIdOrThrow(id);
-        assessmentRepository.deleteByCourseId(id);
         courseRepository.delete(course);
+    }
+
+    @Override
+    public void removeAssessmentFromCourse(Long courseId, Long assessmentId) {
+        Course course = findByIdOrThrow(courseId);
+        Assessment assessment = course.getAssessments().stream()
+                .filter(a -> a.getId().equals(assessmentId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Assessment not found in course with id: " + assessmentId));
+        course.removeAssessment(assessment);
+        courseRepository.save(course);
     }
 
     private Course findByIdOrThrow(Long id) {
