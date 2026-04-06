@@ -9,7 +9,6 @@ import com.jpin.gradient.dto.course.CourseCreateRequest;
 import com.jpin.gradient.dto.course.CourseResponse;
 import com.jpin.gradient.dto.course.CourseUpdateRequest;
 import com.jpin.gradient.exception.ResourceNotFoundException;
-import com.jpin.gradient.model.Assessment;
 import com.jpin.gradient.model.Course;
 import com.jpin.gradient.repository.AssessmentRepository;
 import com.jpin.gradient.repository.CourseRepository;
@@ -65,18 +64,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourse(Long id) {
         Course course = findByIdOrThrow(id);
+        assessmentRepository.deleteByCourseId(id);
         courseRepository.delete(course);
-    }
-
-    @Override
-    public void removeAssessmentFromCourse(Long courseId, Long assessmentId) {
-        Course course = findByIdOrThrow(courseId);
-        Assessment assessmentToRemove = course.getAssessments().stream()
-            .filter(a -> a.getId().equals(assessmentId))
-            .findFirst()
-            .orElseThrow(() -> new ResourceNotFoundException("Assessment not found with id: " + assessmentId + " in course: " + courseId));
-        course.removeAssessment(assessmentToRemove);
-        courseRepository.save(course);
     }
 
     private Course findByIdOrThrow(Long id) {

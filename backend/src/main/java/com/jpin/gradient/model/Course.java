@@ -23,6 +23,11 @@ public class Course {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "term_id", nullable = false)
+    @ToString.Exclude
+    private Term term;
+
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // to avoid circular reference

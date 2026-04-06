@@ -3,11 +3,13 @@ package com.jpin.gradient.dto.assessment;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Setter
+@Getter
 public class AssessmentGradeRequest {
 
     // nullable allowed; when present must be [0, 100]
