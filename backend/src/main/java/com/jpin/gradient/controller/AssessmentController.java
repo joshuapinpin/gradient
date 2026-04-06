@@ -1,9 +1,9 @@
 package com.jpin.gradient.controller;
 
-import com.jpin.gradient.dto.assessment.AssessmentCreateRequest;
-import com.jpin.gradient.dto.assessment.AssessmentGradeRequest;
-import com.jpin.gradient.dto.assessment.AssessmentResponse;
-import com.jpin.gradient.dto.assessment.AssessmentUpdateRequest;
+import com.jpin.gradient.dto.create.AssessmentCreateRequest;
+import com.jpin.gradient.dto.update.AssessmentGradeRequest;
+import com.jpin.gradient.dto.response.AssessmentResponse;
+import com.jpin.gradient.dto.update.AssessmentUpdateRequest;
 import com.jpin.gradient.service.AssessmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -1,12 +1,14 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.jpin.gradient.model.AssessmentType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class AssessmentResponse {
     private Long id;
     private String name;

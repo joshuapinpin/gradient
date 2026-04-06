@@ -1,8 +1,8 @@
 package com.jpin.gradient.service;
 
-import com.jpin.gradient.dto.course.CourseCreateRequest;
-import com.jpin.gradient.dto.course.CourseResponse;
-import com.jpin.gradient.dto.course.CourseUpdateRequest;
+import com.jpin.gradient.dto.create.CourseCreateRequest;
+import com.jpin.gradient.dto.response.CourseResponse;
+import com.jpin.gradient.dto.update.CourseUpdateRequest;
 
 import java.util.List;
 

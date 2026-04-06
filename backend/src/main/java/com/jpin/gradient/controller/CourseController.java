@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jpin.gradient.dto.course.CourseCreateRequest;
-import com.jpin.gradient.dto.course.CourseResponse;
-import com.jpin.gradient.dto.course.CourseUpdateRequest;
+import com.jpin.gradient.dto.create.CourseCreateRequest;
+import com.jpin.gradient.dto.response.CourseResponse;
+import com.jpin.gradient.dto.update.CourseUpdateRequest;
 import com.jpin.gradient.service.CourseService;
 
 import jakarta.validation.Valid;

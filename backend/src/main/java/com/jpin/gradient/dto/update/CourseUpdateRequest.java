@@ -1,13 +1,17 @@
-package com.jpin.gradient.dto.course;
+package com.jpin.gradient.dto.update;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class CourseUpdateRequest {
 
 	@NotBlank
 	@Size(max = 50)
 	private String name;
+
+	private Long termId;
 }

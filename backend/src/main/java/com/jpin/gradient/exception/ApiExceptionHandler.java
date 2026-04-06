@@ -36,4 +36,21 @@ public class ApiExceptionHandler {
         }).toList());
         return body;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Map<String, Object> handleIllegalArgument(IllegalArgumentException ex) {
+        Map<String, Object> body = new HashMap<>();
+        String message = ex.getMessage();
+        if (message != null && message.toLowerCase().contains("not found")) {
+            body.put("error", "NOT_FOUND");
+            body.put("message", message);
+            // Override status to 404
+            throw new ResourceNotFoundException(message);
+        } else {
+            body.put("error", "BAD_REQUEST");
+            body.put("message", message != null ? message : "Invalid request");
+        }
+        return body;
+    }
 }

@@ -1,13 +1,15 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.update;
 
 import com.jpin.gradient.model.AssessmentType;
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
 public class AssessmentUpdateRequest {
 
     @Size(max = 50)
