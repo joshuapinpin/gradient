@@ -1,13 +1,29 @@
 package com.jpin.gradient.validation;
 
 import com.jpin.gradient.dto.create.TermCreateRequest;
+import com.jpin.gradient.dto.update.TermUpdateRequest;
 import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-public class DateRangeValidator implements ConstraintValidator<ValidDateRange, TermCreateRequest> {
+import java.time.LocalDate;
+
+public class DateRangeValidator implements ConstraintValidator<ValidDateRange, Object> {
     @Override
-    public boolean isValid(TermCreateRequest request, jakarta.validation.ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+        if (value instanceof TermCreateRequest req) {
+            startDate = req.getStartDate();
+            endDate = req.getEndDate();
+        }
+        else if (value instanceof TermUpdateRequest req) {
+            startDate = req.getStartDate();
+            endDate = req.getEndDate();
+        }
+        else return true; // Not applicable
+
         // If either date is null, we consider it valid (optional fields); let @NotNull handle if needed
-        if (request.getStartDate() == null || request.getEndDate() == null) return true;
-        return request.getStartDate().isBefore(request.getEndDate());
+        if (startDate == null || endDate == null) return true;
+        return startDate.isBefore(endDate);
     }
 }

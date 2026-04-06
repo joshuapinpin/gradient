@@ -5,9 +5,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jpin.gradient.dto.create.TermCreateRequest;
 import com.jpin.gradient.dto.response.TermResponse;
 import com.jpin.gradient.dto.update.TermUpdateRequest;
+import com.jpin.gradient.exception.ResourceNotFoundException;
 import com.jpin.gradient.service.TermService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,24 +27,35 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.jpin.gradient.exception.ApiExceptionHandler;
+
 @ExtendWith(MockitoExtension.class)
 class TermControllerTest {
 	private MockMvc mockMvc;
 	private final ObjectMapper objectMapper = new ObjectMapper();
+
 	@Mock
 	private TermService termService;
+
 	@InjectMocks
 	private TermController termController;
 
 	@BeforeEach
 	void setup() {
-		objectMapper.registerModule(new JavaTimeModule()); // tells jackson how to handle Java 8 date/time types
-		mockMvc = MockMvcBuilders.standaloneSetup(termController).build();
+		// tells jackson how to handle Java 8 date/time types
+		objectMapper.registerModule(new JavaTimeModule());
+
+		// serialize LocalDate as ISO-8601 string instead of timestamp
+		objectMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+		mockMvc = MockMvcBuilders.standaloneSetup(termController)
+				.setControllerAdvice(new ApiExceptionHandler())
+				.setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
+				.build();
 	}
 
     /** ========== CREATE TESTS ==========  **/
     @Test
-//    @DisplayName("POST /api/terms - create term")
     void createTerm() throws Exception{
         TermCreateRequest req = new TermCreateRequest();
         req.setName("Spring 2026");
@@ -76,7 +88,9 @@ class TermControllerTest {
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(2L))
-                .andExpect(jsonPath("$.name").value("Fall 2026"));
+                .andExpect(jsonPath("$.name").value("Fall 2026"))
+				.andExpect(jsonPath("$.startDate").value("2026-09-01"))
+				.andExpect(jsonPath("$.endDate").value("2026-12-31"));
     }
 
     @Test
@@ -115,11 +129,30 @@ class TermControllerTest {
 	}
 
 	@Test
+	void getTermById_notFound() throws Exception {
+		Mockito.when(termService.getTermById(999L)).thenThrow(new ResourceNotFoundException("Term not found"));
+		mockMvc.perform(get("/api/terms/999"))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
 	void getAllTerms() throws Exception {
 		Mockito.when(termService.getTerms()).thenReturn(Collections.emptyList());
 		mockMvc.perform(get("/api/terms"))
 				.andExpect(status().isOk())
 				.andExpect(content().json("[]"));
+	}
+
+	@Test
+	void getAllTerms_withData() throws Exception {
+		TermResponse resp = new TermResponse();
+		resp.setId(1L);
+		resp.setName("Spring 2026");
+		Mockito.when(termService.getTerms()).thenReturn(Collections.singletonList(resp));
+		mockMvc.perform(get("/api/terms"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].id").value(1L))
+				.andExpect(jsonPath("$[0].name").value("Spring 2026"));
 	}
 
     /** ========== UPDATE TESTS ==========  **/
@@ -139,6 +172,59 @@ class TermControllerTest {
 				.andExpect(jsonPath("$.name").value("Updated"));
 	}
 
+	@Test
+	void updateTerm_withDates() throws Exception {
+		TermUpdateRequest req = new TermUpdateRequest();
+		req.setName("Spring 2026"); // Set required name field
+		req.setStartDate(LocalDate.of(2026, 3, 1));
+		req.setEndDate(LocalDate.of(2026, 6, 30));
+		TermResponse resp = new TermResponse();
+		resp.setId(1L);
+		resp.setName("Fall 2026");
+		resp.setStartDate(LocalDate.of(2026, 9, 1));
+		resp.setEndDate(LocalDate.of(2026, 12, 31));
+		Mockito.when(termService.updateTerm(eq(1L), any())).thenReturn(resp);
+		mockMvc.perform(put("/api/terms/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.startDate").value("2026-09-01"))
+				.andExpect(jsonPath("$.endDate").value("2026-12-31"));
+	}
+
+	@Test
+	void updateTerm_notFound() throws Exception {
+		TermUpdateRequest req = new TermUpdateRequest();
+		req.setName("Updated");
+		Mockito.when(termService.updateTerm(eq(999L), any())).thenThrow(new ResourceNotFoundException("Term not found"));
+		mockMvc.perform(put("/api/terms/999")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req)))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void updateTerm_invalidDates() throws Exception {
+		TermUpdateRequest req = new TermUpdateRequest();
+		req.setName("Updated");
+		req.setStartDate(LocalDate.of(2026, 12, 31));
+		req.setEndDate(LocalDate.of(2026, 9, 1)); // End date before start date
+		mockMvc.perform(put("/api/terms/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req)))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void updateTerm_invalidName() throws Exception {
+		TermUpdateRequest req = new TermUpdateRequest();
+		// Missing name
+		mockMvc.perform(put("/api/terms/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req)))
+				.andExpect(status().isBadRequest());
+	}
+
     /** ========== DELETE TESTS ==========  **/
 
 	@Test
@@ -146,5 +232,26 @@ class TermControllerTest {
 		mockMvc.perform(delete("/api/terms/1"))
 				.andExpect(status().isNoContent());
 		Mockito.verify(termService).deleteTerm(1L);
+	}
+
+	@Test
+	void deleteTerm_notFound() throws Exception {
+		Mockito.doThrow(new ResourceNotFoundException("Term not found")).when(termService).deleteTerm(999L);
+		mockMvc.perform(delete("/api/terms/999"))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void removeCourseFromTerm() throws Exception {
+		mockMvc.perform(delete("/api/terms/1/courses/2"))
+				.andExpect(status().isNoContent());
+		Mockito.verify(termService).removeCourseFromTerm(1L, 2L);
+	}
+
+	@Test
+	void removeCourseFromTerm_notFound() throws Exception {
+		Mockito.doThrow(new ResourceNotFoundException("Term not found")).when(termService).removeCourseFromTerm(999L, 2L);
+		mockMvc.perform(delete("/api/terms/999/courses/2"))
+				.andExpect(status().isNotFound());
 	}
 }
