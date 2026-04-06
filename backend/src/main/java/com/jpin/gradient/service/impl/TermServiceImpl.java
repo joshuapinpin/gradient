@@ -1,8 +1,8 @@
 package com.jpin.gradient.service.impl;
 
-import com.jpin.gradient.dto.term.TermCreateRequest;
-import com.jpin.gradient.dto.term.TermResponse;
-import com.jpin.gradient.dto.term.TermUpdateRequest;
+import com.jpin.gradient.dto.create.TermCreateRequest;
+import com.jpin.gradient.dto.response.TermResponse;
+import com.jpin.gradient.dto.update.TermUpdateRequest;
 import com.jpin.gradient.model.Course;
 import com.jpin.gradient.model.Term;
 import com.jpin.gradient.repository.CourseRepository;

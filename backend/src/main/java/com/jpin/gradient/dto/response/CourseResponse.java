@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.course;
+package com.jpin.gradient.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jpin.gradient.dto.course.CourseCreateRequest;
-import com.jpin.gradient.dto.course.CourseResponse;
-import com.jpin.gradient.dto.course.CourseUpdateRequest;
+import com.jpin.gradient.dto.create.CourseCreateRequest;
+import com.jpin.gradient.dto.response.CourseResponse;
+import com.jpin.gradient.dto.update.CourseUpdateRequest;
 import com.jpin.gradient.exception.ResourceNotFoundException;
 import com.jpin.gradient.model.Course;
 import com.jpin.gradient.repository.AssessmentRepository;

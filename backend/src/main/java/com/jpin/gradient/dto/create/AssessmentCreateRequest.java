@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.create;
 
 import java.math.BigDecimal;
 

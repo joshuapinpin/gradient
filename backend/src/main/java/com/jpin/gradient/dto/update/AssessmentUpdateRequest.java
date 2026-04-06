@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.update;
 
 import com.jpin.gradient.model.AssessmentType;
 import jakarta.validation.constraints.*;

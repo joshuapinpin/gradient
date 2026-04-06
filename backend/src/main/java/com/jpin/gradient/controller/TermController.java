@@ -1,8 +1,8 @@
 package com.jpin.gradient.controller;
 
-import com.jpin.gradient.dto.term.TermCreateRequest;
-import com.jpin.gradient.dto.term.TermResponse;
-import com.jpin.gradient.dto.term.TermUpdateRequest;
+import com.jpin.gradient.dto.create.TermCreateRequest;
+import com.jpin.gradient.dto.response.TermResponse;
+import com.jpin.gradient.dto.update.TermUpdateRequest;
 import com.jpin.gradient.service.TermService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

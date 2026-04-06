@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

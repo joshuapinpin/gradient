@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.term;
+package com.jpin.gradient.dto.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -7,14 +7,15 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
 @Setter
-public class TermUpdateRequest {
+@Getter
+public class TermCreateRequest {
 
     @NotBlank
     @Size(max = 50)
     private String name;
 
+    // Optional start and end dates
     private LocalDate startDate;
     private LocalDate endDate;
 }

@@ -1,9 +1,9 @@
 package com.jpin.gradient.service;
 
-import com.jpin.gradient.dto.assessment.AssessmentCreateRequest;
-import com.jpin.gradient.dto.assessment.AssessmentGradeRequest;
-import com.jpin.gradient.dto.assessment.AssessmentResponse;
-import com.jpin.gradient.dto.assessment.AssessmentUpdateRequest;
+import com.jpin.gradient.dto.create.AssessmentCreateRequest;
+import com.jpin.gradient.dto.update.AssessmentGradeRequest;
+import com.jpin.gradient.dto.response.AssessmentResponse;
+import com.jpin.gradient.dto.update.AssessmentUpdateRequest;
 
 import java.util.List;
 

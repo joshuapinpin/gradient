@@ -1,4 +1,4 @@
-package com.jpin.gradient.dto.assessment;
+package com.jpin.gradient.dto.update;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
