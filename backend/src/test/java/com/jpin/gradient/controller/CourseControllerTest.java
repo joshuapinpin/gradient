@@ -160,7 +160,6 @@ class CourseControllerTest {
 	void updateCourse() throws Exception{
 		CourseUpdateRequest updateRequest = new CourseUpdateRequest();
 		updateRequest.setName("Updated Course");
-		updateRequest.setTermId(1L);
 
 		CourseResponse response = new CourseResponse();
 		response.setId(1L);
@@ -182,7 +181,6 @@ class CourseControllerTest {
 	void updateCourse_notFound() throws Exception {
 		CourseUpdateRequest updateRequest = new CourseUpdateRequest();
 		updateRequest.setName("Updated Course");
-		updateRequest.setTermId(1L);
 
 		Mockito.when(courseService.updateCourse(any(Long.class), any())).thenThrow(new ResourceNotFoundException("Course not found with id: 999"));
 
