@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jpin.gradient.dto.create.AssessmentCreateRequest;
 import com.jpin.gradient.dto.response.AssessmentResponse;
+import com.jpin.gradient.dto.update.AssessmentGradeRequest;
 import com.jpin.gradient.dto.update.AssessmentUpdateRequest;
 import com.jpin.gradient.exception.ApiExceptionHandler;
 import com.jpin.gradient.exception.ResourceNotFoundException;
@@ -278,6 +279,33 @@ public class AssessmentControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void updateAssessment_grade() throws Exception{
+        AssessmentGradeRequest gradeRequest = new AssessmentGradeRequest();
+        gradeRequest.setGrade(new BigDecimal("85.0"));
+
+        AssessmentResponse response = new AssessmentResponse();
+        response.setId(1L);
+        response.setName("Graded Assessment");
+        response.setWeight(new BigDecimal("20.0"));
+        response.setGrade(new BigDecimal("85.0"));
+        response.setAssessmentType(AssessmentType.EXAM);
+        response.setCourseId(1L);
+
+        Mockito.when(assessmentService.gradeAssessment(eq(1L), any(AssessmentGradeRequest.class)))
+                .thenReturn(response);
+        mockMvc.perform(post("/api/assessments/1/grade")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(gradeRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("Graded Assessment"))
+                .andExpect(jsonPath("$.weight").value(20.0))
+                .andExpect(jsonPath("$.grade").value(85.0))
+                .andExpect(jsonPath("$.assessmentType").value("EXAM"))
+                .andExpect(jsonPath("$.courseId").value(1L));
+    }
+
     /** ========== DELETE ASSESSMENT TESTS ========== **/
 
     @Test
@@ -287,5 +315,10 @@ public class AssessmentControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-
+    @Test
+    void deleteAssessment_notFound() throws Exception {
+        Mockito.doThrow(new ResourceNotFoundException("Assessment not found")).when(assessmentService).deleteAssessment(999L);
+        mockMvc.perform(delete("/api/assessments/999"))
+                .andExpect(status().isNotFound());
+    }
 }
