@@ -66,10 +66,6 @@ public class AssessmentServiceImpl implements AssessmentService {
         if (request.getWeight() != null) assessment.setWeight(request.getWeight());
         if (request.getDueDate() != null) assessment.setDueDate(request.getDueDate());
         if (request.getAssessmentType() != null) assessment.setAssessmentType(request.getAssessmentType());
-        if(request.getCourseId() != null) {
-            Course course = findCourseByIdOrThrow(request.getCourseId());
-            assessment.setCourse(course);
-        }
 
         Assessment saved = assessmentRepository.save(assessment);
         return toResponse(saved);
@@ -89,6 +85,8 @@ public class AssessmentServiceImpl implements AssessmentService {
         Assessment assessment = findByIdOrThrow(id);
         assessmentRepository.delete(assessment);
     }
+
+    // ---------- Helper Methods ----------
 
     private Assessment findByIdOrThrow(Long id) {
         return assessmentRepository.findById(id)

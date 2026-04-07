@@ -1,6 +1,7 @@
 package com.jpin.gradient.dto.create;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import com.jpin.gradient.model.AssessmentType;
 import jakarta.validation.constraints.DecimalMax;
@@ -31,5 +32,7 @@ public class AssessmentCreateRequest {
 
     @NotNull
     private Long courseId;
+
+    private LocalDateTime dueDate;
 
 }
