@@ -23,6 +23,7 @@ public class Course {
     @Column(nullable = false, length = 50)
     private String name;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "term_id", nullable = false)
     @ToString.Exclude
