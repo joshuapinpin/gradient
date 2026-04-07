@@ -66,10 +66,6 @@ public class AssessmentServiceImpl implements AssessmentService {
         if (request.getWeight() != null) assessment.setWeight(request.getWeight());
         if (request.getDueDate() != null) assessment.setDueDate(request.getDueDate());
         if (request.getAssessmentType() != null) assessment.setAssessmentType(request.getAssessmentType());
-        if(request.getCourseId() != null) {
-            Course course = findCourseByIdOrThrow(request.getCourseId());
-            assessment.setCourse(course);
-        }
 
         Assessment saved = assessmentRepository.save(assessment);
         return toResponse(saved);

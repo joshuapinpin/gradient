@@ -26,6 +26,4 @@ public class AssessmentUpdateRequest {
 
     private AssessmentType assessmentType;
 
-    private Long courseId;
-
 }
