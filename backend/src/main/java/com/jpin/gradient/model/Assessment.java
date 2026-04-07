@@ -45,6 +45,7 @@ public class Assessment {
     @Column(precision = 5, scale = 2)
     private BigDecimal grade;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     @ToString.Exclude
