@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jpin.gradient.model.Assessment;
 import com.jpin.gradient.model.Term;
+import com.jpin.gradient.repository.TermRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +23,24 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final AssessmentRepository assessmentRepository;
+    private final TermRepository termRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, AssessmentRepository assessmentRepository) {
+    public CourseServiceImpl(
+            CourseRepository courseRepository,
+            AssessmentRepository assessmentRepository,
+            TermRepository termRepository) {
         this.courseRepository = courseRepository;
         this.assessmentRepository = assessmentRepository;
+        this.termRepository = termRepository;
     }
 
     @Override
     public CourseResponse createCourse(CourseCreateRequest request) {
         Course course = new Course();
         course.setName(request.getName());
+
+        Term term = findTermByIdOrThrow(request.getTermId());
+        course.setTerm(term);
 
         Course saved = courseRepository.save(course);
         return toResponse(saved);
@@ -84,6 +93,12 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
     }
+
+    private Term findTermByIdOrThrow(Long id) {
+        return termRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Term not found with id: " + id));
+    }
+
 
     private CourseResponse toResponse(Course course) {
         CourseResponse response = new CourseResponse();

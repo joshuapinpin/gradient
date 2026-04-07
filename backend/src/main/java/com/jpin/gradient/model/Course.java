@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,7 +33,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // to avoid circular reference
-    private Set<Assessment> assessments;
+    private List<Assessment> assessments = new ArrayList<>();
 
     /**
      * Adds an assessment to this course and sets the course on the assessment.
