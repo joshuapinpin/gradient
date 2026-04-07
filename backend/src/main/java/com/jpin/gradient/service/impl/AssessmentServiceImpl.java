@@ -86,6 +86,8 @@ public class AssessmentServiceImpl implements AssessmentService {
         assessmentRepository.delete(assessment);
     }
 
+    // ---------- Helper Methods ----------
+
     private Assessment findByIdOrThrow(Long id) {
         return assessmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Assessment not found with id: " + id));
