@@ -1,0 +1,53 @@
+package com.jpin.gradient.core.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) // only include id in equals and hashcode
+public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
+
+    @NotNull
+    @Column(nullable = false, length = 50)
+    private String name;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "term_id", nullable = false)
+    @ToString.Exclude
+    private Term term;
+
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude // to avoid circular reference
+    private List<Assessment> assessments = new ArrayList<>();
+
+    /**
+     * Adds an assessment to this course and sets the course on the assessment.
+     */
+    public void addAssessment(Assessment assessment) {
+        assessments.add(assessment);
+        assessment.setCourse(this);
+    }
+
+    /**
+     * Removes an assessment from this course and unsets the course on the assessment.
+     */
+    public void removeAssessment(Assessment assessment) {
+        assessments.remove(assessment);
+        assessment.setCourse(null);
+    }
+}
