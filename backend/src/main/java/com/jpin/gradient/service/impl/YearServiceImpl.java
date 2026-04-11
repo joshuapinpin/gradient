@@ -3,6 +3,7 @@ package com.jpin.gradient.service.impl;
 import com.jpin.gradient.dto.create.YearCreateRequest;
 import com.jpin.gradient.dto.response.YearResponse;
 import com.jpin.gradient.dto.update.YearUpdateRequest;
+import com.jpin.gradient.exception.ResourceNotFoundException;
 import com.jpin.gradient.model.Term;
 import com.jpin.gradient.model.Year;
 import com.jpin.gradient.repository.TermRepository;
@@ -81,7 +82,7 @@ public class YearServiceImpl implements YearService {
     public void removeTermFromYear(Long yearId, Long termId) {
         Year year = findByIdOrThrow(yearId);
         Term term = termRepository.findById(termId)
-                .orElseThrow(() -> new RuntimeException("Term not found with id: " + termId));
+                .orElseThrow(() -> new ResourceNotFoundException("Term not found with id: " + termId));
 
         if (!term.getYear().equals(year)) {
             throw new IllegalArgumentException("Term does not belong to the specified year");
@@ -95,7 +96,7 @@ public class YearServiceImpl implements YearService {
 
     private Year findByIdOrThrow(Long id) {
         return yearRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Year not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Year not found with id: " + id));
     }
 
     private YearResponse toResponse(Year year) {
