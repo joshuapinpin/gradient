@@ -105,6 +105,7 @@ public class CourseServiceImpl implements CourseService {
         response.setId(course.getId());
         response.setName(course.getName());
         response.setAssessmentCount(Math.toIntExact(assessmentRepository.countByCourseId(course.getId())));
+        response.setTermId(course.getTerm().getId());
         return response;
     }
 }

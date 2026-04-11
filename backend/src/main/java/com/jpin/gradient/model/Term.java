@@ -2,6 +2,7 @@ package com.jpin.gradient.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -29,6 +30,12 @@ public class Term {
 
     private LocalDate startDate;
     private LocalDate endDate;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "year_id", nullable = false)
+    @ToString.Exclude
+    private Year year;
 
     @OneToMany(mappedBy = "term", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // to avoid circular reference

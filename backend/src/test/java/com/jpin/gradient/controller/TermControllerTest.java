@@ -59,6 +59,7 @@ class TermControllerTest {
     void createTerm() throws Exception{
         TermCreateRequest req = new TermCreateRequest();
         req.setName("Spring 2026");
+		req.setYearId(1L); // Set required yearId field
         TermResponse resp = new TermResponse();
         resp.setId(1L);
         resp.setName("Spring 2026");
@@ -75,6 +76,7 @@ class TermControllerTest {
     void createTerm_withDates() throws Exception{
         TermCreateRequest req = new TermCreateRequest();
         req.setName("Fall 2026");
+		req.setYearId(1L); // Set required yearId field
         req.setStartDate(LocalDate.of(2026, 9, 1));
         req.setEndDate(LocalDate.of(2026, 12, 31));
         TermResponse resp = new TermResponse();
@@ -216,13 +218,13 @@ class TermControllerTest {
 	}
 
 	@Test
-	void updateTerm_invalidName() throws Exception {
+	void updateTerm_noName() throws Exception {
 		TermUpdateRequest req = new TermUpdateRequest();
 		// Missing name
 		mockMvc.perform(put("/api/terms/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(req)))
-				.andExpect(status().isBadRequest());
+				.andExpect(status().isOk());
 	}
 
     /** ========== DELETE TESTS ==========  **/

@@ -18,9 +18,11 @@ import java.util.List;
 public class YearServiceImpl implements YearService {
 
     private final YearRepository yearRepository;
+    private final TermRepository termRepository;
 
-    public YearServiceImpl(YearRepository yearRepository) {
+    public YearServiceImpl(YearRepository yearRepository, TermRepository termRepository) {
         this.yearRepository = yearRepository;
+        this.termRepository = termRepository;
     }
 
 
@@ -77,15 +79,16 @@ public class YearServiceImpl implements YearService {
 
     @Override
     public void removeTermFromYear(Long yearId, Long termId) {
-        // TODO
-//        Year year = findByIdOrThrow(yearId);
-//        Term termToRemove = year.getTerms().stream()
-//                .filter(t -> t.getId().equals(termId))
-//                .findFirst()
-//                .orElseThrow(() -> new RuntimeException("Term not found with id: " + termId));
-//
-//        year.removeTerm(termToRemove);
-//        yearRepository.save(year);
+        Year year = findByIdOrThrow(yearId);
+        Term term = termRepository.findById(termId)
+                .orElseThrow(() -> new RuntimeException("Term not found with id: " + termId));
+
+        if (!term.getYear().equals(year)) {
+            throw new IllegalArgumentException("Term does not belong to the specified year");
+        }
+
+        year.removeTerm(term);
+        yearRepository.save(year);
     }
 
     // =========== HELPER METHODS ==========

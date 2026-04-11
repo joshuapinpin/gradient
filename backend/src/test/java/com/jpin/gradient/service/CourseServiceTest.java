@@ -4,10 +4,7 @@ import com.jpin.gradient.dto.create.CourseCreateRequest;
 import com.jpin.gradient.dto.response.CourseResponse;
 import com.jpin.gradient.dto.update.CourseUpdateRequest;
 import com.jpin.gradient.exception.ResourceNotFoundException;
-import com.jpin.gradient.model.Assessment;
-import com.jpin.gradient.model.AssessmentType;
-import com.jpin.gradient.model.Course;
-import com.jpin.gradient.model.Term;
+import com.jpin.gradient.model.*;
 import com.jpin.gradient.repository.AssessmentRepository;
 import com.jpin.gradient.repository.CourseRepository;
 import com.jpin.gradient.repository.TermRepository;
@@ -19,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +36,18 @@ public class CourseServiceTest {
     private CourseServiceImpl courseService;
 
     // --- Test fixture helpers ---
+
     private Term createTerm() {
+        Year year = new Year();
+        year.setStartDate(LocalDate.of(2026, 1, 1));
+        year.setEndDate(LocalDate.of(2026, 12, 31));
+        year.setName("2026");
+        year.setId(1L);
+
         Term term = new Term();
         term.setId(1L);
         term.setName("Spring 2026");
+        term.setYear(year);
         return term;
     }
 
@@ -171,6 +177,7 @@ public class CourseServiceTest {
         request.setName("Updated Course");
 
         Term term = createTerm();
+
         Course course = new Course();
         course.setId(10L);
         course.setName("Test Course");

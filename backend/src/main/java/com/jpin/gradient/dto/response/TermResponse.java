@@ -13,5 +13,6 @@ public class TermResponse {
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Long yearId;
 
 }

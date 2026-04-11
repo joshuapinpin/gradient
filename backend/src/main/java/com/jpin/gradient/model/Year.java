@@ -44,13 +44,15 @@ public class Year {
      * Adds a term to this year and sets the year on the term.
      */
     public void addTerm(Term term){
-        // TODO
+        terms.add(term);
+        term.setYear(this);
     }
 
     /**
      * Removes a term from this year and unsets the year on the term.
      */
     public void removeTerm(Term term){
-        // TODO
+        terms.remove(term);
+        term.setYear(null);
     }
 }

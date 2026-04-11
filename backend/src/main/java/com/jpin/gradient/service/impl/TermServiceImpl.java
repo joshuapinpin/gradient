@@ -5,8 +5,10 @@ import com.jpin.gradient.dto.response.TermResponse;
 import com.jpin.gradient.dto.update.TermUpdateRequest;
 import com.jpin.gradient.model.Course;
 import com.jpin.gradient.model.Term;
+import com.jpin.gradient.model.Year;
 import com.jpin.gradient.repository.CourseRepository;
 import com.jpin.gradient.repository.TermRepository;
+import com.jpin.gradient.repository.YearRepository;
 import com.jpin.gradient.service.TermService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +23,15 @@ public class TermServiceImpl implements TermService {
 
     private final TermRepository termRepository;
     private final CourseRepository courseRepository;
+    private final YearRepository yearRepository;
 
-    public TermServiceImpl(TermRepository termRepository, CourseRepository courseRepository) {
+    public TermServiceImpl(
+            TermRepository termRepository,
+            CourseRepository courseRepository,
+            YearRepository yearRepository) {
         this.termRepository = termRepository;
         this.courseRepository = courseRepository;
+        this.yearRepository = yearRepository;
     }
 
 
@@ -39,6 +46,9 @@ public class TermServiceImpl implements TermService {
                 && !request.getStartDate().isBefore(request.getEndDate())){
             throw new IllegalArgumentException("Start date must be before end date");
         }
+
+        Year year = findYearByIdOrThrow(request.getYearId());
+        term.setYear(year);
 
         term = termRepository.save(term);
         return toResponse(term);
@@ -82,17 +92,27 @@ public class TermServiceImpl implements TermService {
     @Override
     public void removeCourseFromTerm(Long termId, Long courseId) {
         Term term = findByIdOrThrow(termId);
-        Course course = term.getCourses().stream()
-                .filter(c -> c.getId().equals(courseId))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Course not found in term with id: " + courseId));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + courseId));
+
+        if (!course.getTerm().equals(term)) {
+            throw new IllegalArgumentException("Course does not belong to the specified term");
+        }
+
         term.removeCourse(course);
         termRepository.save(term);
     }
 
+    // =========== HELPER METHODS ==========
+
     private Term findByIdOrThrow(Long id) {
         return termRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Term not found with id: " + id));
+    }
+
+    private Year findYearByIdOrThrow(Long id) {
+        return yearRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Year not found with id: " + id));
     }
 
     private TermResponse toResponse(Term term){
@@ -101,6 +121,7 @@ public class TermServiceImpl implements TermService {
         response.setName(term.getName());
         response.setStartDate(term.getStartDate());
         response.setEndDate(term.getEndDate());
+        response.setYearId(term.getYear().getId());
         return response;
     }
 }
