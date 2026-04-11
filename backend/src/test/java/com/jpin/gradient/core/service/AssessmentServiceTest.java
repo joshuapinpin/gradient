@@ -1,16 +1,16 @@
 package com.jpin.gradient.core.service;
 
-import com.jpin.gradient.core.dto.create.AssessmentCreateRequest;
-import com.jpin.gradient.core.dto.response.AssessmentResponse;
-import com.jpin.gradient.core.dto.update.AssessmentUpdateRequest;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.model.Assessment;
-import com.jpin.gradient.core.model.AssessmentType;
-import com.jpin.gradient.core.model.Course;
-import com.jpin.gradient.core.model.Term;
-import com.jpin.gradient.core.repository.AssessmentRepository;
-import com.jpin.gradient.core.repository.CourseRepository;
-import com.jpin.gradient.core.service.impl.AssessmentServiceImpl;
+import com.jpin.gradient.core.assessment.AssessmentCreateRequest;
+import com.jpin.gradient.core.assessment.AssessmentResponse;
+import com.jpin.gradient.core.assessment.AssessmentUpdateRequest;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
+import com.jpin.gradient.core.assessment.Assessment;
+import com.jpin.gradient.core.assessment.AssessmentType;
+import com.jpin.gradient.core.course.Course;
+import com.jpin.gradient.core.term.Term;
+import com.jpin.gradient.core.assessment.AssessmentRepository;
+import com.jpin.gradient.core.course.CourseRepository;
+import com.jpin.gradient.core.assessment.AssessmentServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

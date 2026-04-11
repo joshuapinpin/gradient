@@ -2,12 +2,8 @@ package com.jpin.gradient.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jpin.gradient.core.controller.TermController;
-import com.jpin.gradient.core.dto.create.TermCreateRequest;
-import com.jpin.gradient.core.dto.response.TermResponse;
-import com.jpin.gradient.core.dto.update.TermUpdateRequest;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.service.TermService;
+import com.jpin.gradient.core.term.*;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +24,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.jpin.gradient.core.exception.ApiExceptionHandler;
+import com.jpin.gradient.core.shared.exception.ApiExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
 class TermControllerTest {

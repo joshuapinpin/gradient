@@ -1,14 +1,13 @@
 package com.jpin.gradient.core.service;
 
-import com.jpin.gradient.core.dto.create.CourseCreateRequest;
-import com.jpin.gradient.core.dto.response.CourseResponse;
-import com.jpin.gradient.core.dto.update.CourseUpdateRequest;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.model.*;
-import com.jpin.gradient.core.repository.AssessmentRepository;
-import com.jpin.gradient.core.repository.CourseRepository;
-import com.jpin.gradient.core.repository.TermRepository;
-import com.jpin.gradient.core.service.impl.CourseServiceImpl;
+import com.jpin.gradient.core.assessment.Assessment;
+import com.jpin.gradient.core.assessment.AssessmentType;
+import com.jpin.gradient.core.course.*;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
+import com.jpin.gradient.core.assessment.AssessmentRepository;
+import com.jpin.gradient.core.term.Term;
+import com.jpin.gradient.core.term.TermRepository;
+import com.jpin.gradient.core.year.Year;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

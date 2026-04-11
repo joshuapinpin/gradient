@@ -1,13 +1,9 @@
 package com.jpin.gradient.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jpin.gradient.core.controller.CourseController;
-import com.jpin.gradient.core.dto.create.CourseCreateRequest;
-import com.jpin.gradient.core.dto.response.CourseResponse;
-import com.jpin.gradient.core.dto.update.CourseUpdateRequest;
-import com.jpin.gradient.core.exception.ApiExceptionHandler;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.service.CourseService;
+import com.jpin.gradient.core.course.*;
+import com.jpin.gradient.core.shared.exception.ApiExceptionHandler;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
