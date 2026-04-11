@@ -69,6 +69,7 @@ public class TermServiceImpl implements TermService {
         if (request.getStartDate() != null) term.setStartDate(request.getStartDate());
         if (request.getEndDate() != null) term.setEndDate(request.getEndDate());
 
+        term = termRepository.save(term);
         return toResponse(term);
     }
 

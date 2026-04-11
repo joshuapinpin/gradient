@@ -1,7 +1,9 @@
 package com.jpin.gradient.validation;
 
 import com.jpin.gradient.dto.create.TermCreateRequest;
+import com.jpin.gradient.dto.create.YearCreateRequest;
 import com.jpin.gradient.dto.update.TermUpdateRequest;
+import com.jpin.gradient.dto.update.YearUpdateRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -17,6 +19,14 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, O
             endDate = req.getEndDate();
         }
         else if (value instanceof TermUpdateRequest req) {
+            startDate = req.getStartDate();
+            endDate = req.getEndDate();
+        }
+        else if(value instanceof YearCreateRequest req) {
+            startDate = req.getStartDate();
+            endDate = req.getEndDate();
+        }
+        else if(value instanceof YearUpdateRequest req) {
             startDate = req.getStartDate();
             endDate = req.getEndDate();
         }
