@@ -59,9 +59,11 @@ public class YearServiceImpl implements YearService {
     public YearResponse updateYear(Long id, YearUpdateRequest request) {
         Year year = findByIdOrThrow(id);
 
-        if (year.getStartDate() != null && year.getEndDate() != null
-                && !year.getStartDate().isBefore(year.getEndDate())) {
-            throw new IllegalArgumentException("Start date must be before end date");
+        // Validate new dates if both are provided in the request
+        if (request.getStartDate() != null && request.getEndDate() != null) {
+            if (!request.getStartDate().isBefore(request.getEndDate())) {
+                throw new IllegalArgumentException("Start date must be before end date");
+            }
         }
 
         if (request.getName() != null) year.setName(request.getName());
