@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @ValidDateRange
 public class YearUpdateRequest {
 
+    @Size(max = 50)
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;

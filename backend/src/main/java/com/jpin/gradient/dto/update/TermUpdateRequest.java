@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @ValidDateRange
 public class TermUpdateRequest {
 
-    @NotBlank
     @Size(max = 50)
     private String name;
 

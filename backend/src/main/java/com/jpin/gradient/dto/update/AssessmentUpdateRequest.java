@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 public class AssessmentUpdateRequest {
 
     @Size(max = 50)
-    @NotBlank
     private String name;
 
     // optional update; if provided must still be (0, 100]
