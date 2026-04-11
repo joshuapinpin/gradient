@@ -4,8 +4,10 @@ import com.jpin.gradient.dto.create.TermCreateRequest;
 import com.jpin.gradient.dto.response.TermResponse;
 import com.jpin.gradient.exception.ResourceNotFoundException;
 import com.jpin.gradient.model.Term;
+import com.jpin.gradient.model.Year;
 import com.jpin.gradient.repository.TermRepository;
 import com.jpin.gradient.repository.CourseRepository;
+import com.jpin.gradient.repository.YearRepository;
 import com.jpin.gradient.service.impl.TermServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,23 +22,45 @@ import static org.mockito.ArgumentMatchers.any;
 
 import com.jpin.gradient.dto.update.TermUpdateRequest;
 
+import java.time.LocalDate;
+
 @ExtendWith(MockitoExtension.class)
 public class TermServiceTest {
 	@Mock
 	private TermRepository termRepository;
+
 	@Mock
-	private CourseRepository courseRepository;
+	private YearRepository yearRepository;
+
 	@InjectMocks
 	private TermServiceImpl termService;
+
+	// --- Test fixture helpers ---
+	private Year createSampleYear() {
+		Year year = new Year();
+		year.setId(1L);
+		year.setName("2025-2026");
+		year.setStartDate(LocalDate.of(2025, 9, 1));
+		year.setEndDate(LocalDate.of(2026, 8, 31));
+		return year;
+	}
 
 	@Test
 	void createTerm_shouldReturnResponse() {
 		TermCreateRequest req = new TermCreateRequest();
 		req.setName("Spring 2026");
+		req.setYearId(1L);
+
+		Year year = createSampleYear();
+
 		Term saved = new Term();
 		saved.setId(1L);
 		saved.setName("Spring 2026");
+		saved.setYear(year);
+
 		Mockito.when(termRepository.save(any(Term.class))).thenReturn(saved);
+		Mockito.when(yearRepository.findById(1L)).thenReturn(java.util.Optional.of(year));
+
 		TermResponse resp = termService.createTerm(req);
 		assertNotNull(resp);
 		assertEquals(1L, resp.getId());
@@ -48,8 +72,11 @@ public class TermServiceTest {
 		Term term = new Term();
 		term.setId(1L);
 		term.setName("Spring 2026");
+		term.setYear(createSampleYear());
+
 		Mockito.when(termRepository.findById(1L)).thenReturn(java.util.Optional.of(term));
 		TermResponse resp = termService.getTermById(1L);
+
 		assertNotNull(resp);
 		assertEquals(1L, resp.getId());
 		assertEquals("Spring 2026", resp.getName());
@@ -66,12 +93,17 @@ public class TermServiceTest {
 		Term term = new Term();
 		term.setId(1L);
 		term.setName("Spring 2026");
-		Mockito.when(termRepository.findById(1L)).thenReturn(java.util.Optional.of(term));
+		term.setYear(createSampleYear());
 
 		TermUpdateRequest req = new TermUpdateRequest();
 		req.setName("Fall 2026");
+
+		Mockito.when(termRepository.findById(1L)).thenReturn(java.util.Optional.of(term));
+		Mockito.when(termRepository.save(any(Term.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
 		TermResponse resp = termService.updateTerm(1L, req);
 		assertNotNull(resp);
+		assertEquals(1L, resp.getId());
 		assertEquals("Fall 2026", resp.getName());
 	}
 

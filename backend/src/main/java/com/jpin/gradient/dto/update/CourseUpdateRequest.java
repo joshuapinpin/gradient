@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 public class CourseUpdateRequest {
 
-	@NotBlank
 	@Size(max = 50)
 	private String name;
 }

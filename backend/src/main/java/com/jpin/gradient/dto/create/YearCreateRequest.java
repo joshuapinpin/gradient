@@ -12,16 +12,14 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @ValidDateRange
-public class TermCreateRequest {
-
+public class YearCreateRequest {
     @NotBlank
     @Size(max = 50)
     private String name;
 
-    // Optional start and end dates
+    @NotNull
     private LocalDate startDate;
-    private LocalDate endDate;
 
     @NotNull
-    private Long yearId;
+    private LocalDate endDate;
 }

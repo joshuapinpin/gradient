@@ -16,44 +16,43 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) // only include id in equals and hashcode
-public class Term {
-    
+public class Year {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    
+
     @NotBlank
     @Size(max = 50)
     @Column(nullable = false, length = 50)
     private String name;
 
+    @NotNull
+    @Column(nullable = false)
     private LocalDate startDate;
-    private LocalDate endDate;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "year_id", nullable = false)
-    @ToString.Exclude
-    private Year year;
+    @Column(nullable = false)
+    private LocalDate endDate;
 
-    @OneToMany(mappedBy = "term", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "year", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // to avoid circular reference
-    private List<Course> courses = new ArrayList<>();
+    private List<Term> terms = new ArrayList<>();
 
     /**
-     * Adds a course to this term and sets the term on the course.
+     * Adds a term to this year and sets the year on the term.
      */
-    public void addCourse(Course course) {
-        courses.add(course);
-        course.setTerm(this);
+    public void addTerm(Term term){
+        terms.add(term);
+        term.setYear(this);
     }
 
     /**
-     * Removes a course from this term and unsets the term on the course.
+     * Removes a term from this year and unsets the year on the term.
      */
-    public void removeCourse(Course course) {
-        courses.remove(course);
-        course.setTerm(null);
+    public void removeTerm(Term term){
+        terms.remove(term);
+        term.setYear(null);
     }
 }
