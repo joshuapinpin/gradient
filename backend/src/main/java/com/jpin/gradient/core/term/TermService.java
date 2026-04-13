@@ -10,6 +10,7 @@ public interface TermService {
     TermResponse createTerm(TermCreateRequest request);
     TermResponse getTermById(Long id);
     List<TermResponse> getTerms();
+    List<TermResponse> getTermsByYearId(Long yearId);
     TermResponse updateTerm(Long id, TermUpdateRequest request);
     void deleteTerm(Long id);
     void removeCourseFromTerm(Long termId, Long courseId);

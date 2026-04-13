@@ -64,6 +64,14 @@ public class TermServiceImpl implements TermService {
     }
 
     @Override
+    public List<TermResponse> getTermsByYearId(Long yearId) {
+        Year year = findYearByIdOrThrow(yearId);
+        return termRepository.findByYearId(year.getId()).stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Override
     public TermResponse updateTerm(Long id, TermUpdateRequest request) {
         Term term = findByIdOrThrow(id);
 

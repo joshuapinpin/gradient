@@ -44,6 +44,11 @@ public class CourseController {
         return courseService.getCourses();
     }
 
+    @GetMapping("/term/{termId}")
+    public List<CourseResponse> getByTermId(@PathVariable Long termId) {
+        return courseService.getCoursesByTermId(termId);
+    }
+
     @PutMapping("/{id}")
     public CourseResponse update(@PathVariable Long id, @Valid @RequestBody CourseUpdateRequest request) {
         return courseService.updateCourse(id, request);

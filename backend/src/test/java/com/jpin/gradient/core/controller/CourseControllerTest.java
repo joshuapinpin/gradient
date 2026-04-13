@@ -154,6 +154,47 @@ class CourseControllerTest {
 				.andExpect(content().json("[]"));
 	}
 
+	@Test
+	void getCoursesByTermId() throws Exception {
+		CourseResponse course1 = new CourseResponse();
+		course1.setId(1L);
+		course1.setName("Course 1");
+		course1.setTermId(1L);
+
+		CourseResponse course2 = new CourseResponse();
+		course2.setId(2L);
+		course2.setName("Course 2");
+		course2.setTermId(1L);
+
+		Mockito.when(courseService.getCoursesByTermId(1L)).thenReturn(List.of(course1, course2));
+
+		mockMvc.perform(get("/api/courses/term/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()").value(2))
+				.andExpect(jsonPath("$[0].id").value(1L))
+				.andExpect(jsonPath("$[0].name").value("Course 1"))
+				.andExpect(jsonPath("$[0].termId").value(1L))
+				.andExpect(jsonPath("$[1].id").value(2L))
+				.andExpect(jsonPath("$[1].name").value("Course 2"))
+				.andExpect(jsonPath("$[1].termId").value(1L));
+	}
+
+	@Test
+	void getCoursesByTermId_noCourses() throws Exception {
+		Mockito.when(courseService.getCoursesByTermId(1L)).thenReturn(List.of());
+		mockMvc.perform(get("/api/courses/term/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().json("[]"));
+	}
+
+	@Test
+	void getCoursesByTermId_termNotFound() throws Exception {
+		Mockito.when(courseService.getCoursesByTermId(999L)).thenThrow(new ResourceNotFoundException("Term not found with id: 999"));
+
+		mockMvc.perform(get("/api/courses/term/999"))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.message").value("Term not found with id: 999"));
+	}
 	/** ========== UPDATE COURSE TESTS ========== **/
 
 	@Test

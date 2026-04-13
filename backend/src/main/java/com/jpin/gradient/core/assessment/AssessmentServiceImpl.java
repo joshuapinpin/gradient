@@ -56,6 +56,14 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
+    public List<AssessmentResponse> getAssessmentsByCourseId(Long courseId) {
+        Course course = findCourseByIdOrThrow(courseId);
+        return assessmentRepository.findByCourseId(course.getId()).stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Override
     public AssessmentResponse updateAssessment(Long id, AssessmentUpdateRequest request) {
         Assessment assessment = findByIdOrThrow(id);
 

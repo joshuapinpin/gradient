@@ -81,7 +81,7 @@ public class AssessmentServiceImplTest {
     }
 
     @Test
-    void createAssessment_noCourseId() throws Exception{
+    void createAssessment_noCourseId() {
         AssessmentCreateRequest req = new AssessmentCreateRequest();
         req.setName("Midterm Exam");
         req.setWeight(new BigDecimal("0.3"));
@@ -94,7 +94,7 @@ public class AssessmentServiceImplTest {
     }
 
     @Test
-    void createAssessment_courseNotFound() throws Exception {
+    void createAssessment_courseNotFound() {
         AssessmentCreateRequest req = new AssessmentCreateRequest();
         req.setName("Midterm Exam");
         req.setWeight(new BigDecimal("0.3"));
@@ -160,6 +160,42 @@ public class AssessmentServiceImplTest {
         when(assessmentRepository.findAll()).thenReturn(java.util.List.of(assessment1, assessment2));
 
         List<AssessmentResponse> responses = assessmentService.getAssessments();
+
+        assertThat(responses).hasSize(2);
+        assertThat(responses.get(0).getId()).isEqualTo(1L);
+        assertThat(responses.get(0).getName()).isEqualTo("Midterm Exam");
+        assertThat(responses.get(0).getWeight()).isEqualByComparingTo(new BigDecimal("0.3"));
+        assertThat(responses.get(0).getAssessmentType()).isEqualTo(AssessmentType.EXAM);
+        assertThat(responses.get(0).getCourseId()).isEqualTo(1L);
+
+        assertThat(responses.get(1).getId()).isEqualTo(2L);
+        assertThat(responses.get(1).getName()).isEqualTo("Final Exam");
+        assertThat(responses.get(1).getWeight()).isEqualByComparingTo(new BigDecimal("0.5"));
+        assertThat(responses.get(1).getAssessmentType()).isEqualTo(AssessmentType.EXAM);
+        assertThat(responses.get(1).getCourseId()).isEqualTo(1L);
+    }
+
+    @Test
+    void getAssessmentsByCourseId_shouldReturnList() {
+        Assessment assessment1 = new Assessment();
+        assessment1.setId(1L);
+        assessment1.setName("Midterm Exam");
+        assessment1.setWeight(new BigDecimal("0.3"));
+        assessment1.setAssessmentType(AssessmentType.EXAM);
+        assessment1.setCourse(createCourse());
+
+        Assessment assessment2 = new Assessment();
+        assessment2.setId(2L);
+        assessment2.setName("Final Exam");
+        assessment2.setWeight(new BigDecimal("0.5"));
+        assessment2.setAssessmentType(AssessmentType.EXAM);
+        assessment2.setCourse(createCourse());
+
+        when(assessmentRepository.findByCourseId(1L)).thenReturn(java.util.List.of(assessment1, assessment2));
+        // Add this line to mock courseRepository.findById(1L) for the service logic
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(createCourse()));
+
+        List<AssessmentResponse> responses = assessmentService.getAssessmentsByCourseId(1L);
 
         assertThat(responses).hasSize(2);
         assertThat(responses.get(0).getId()).isEqualTo(1L);
