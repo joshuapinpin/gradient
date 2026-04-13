@@ -11,6 +11,7 @@ public interface AssessmentService {
     AssessmentResponse createAssessment(AssessmentCreateRequest request);
     AssessmentResponse getAssessmentById(Long id);
     List<AssessmentResponse> getAssessments();
+    List<AssessmentResponse> getAssessmentsByCourseId(Long courseId);
     AssessmentResponse updateAssessment(Long id, AssessmentUpdateRequest request);
     AssessmentResponse gradeAssessment(Long id, AssessmentGradeRequest request);
     void deleteAssessment(Long id);

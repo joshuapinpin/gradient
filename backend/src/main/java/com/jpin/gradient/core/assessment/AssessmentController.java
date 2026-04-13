@@ -36,6 +36,11 @@ public class AssessmentController {
         return assessmentService.getAssessments();
     }
 
+    @GetMapping("/course/{courseId}")
+    public List<AssessmentResponse> listByCourseId(@PathVariable Long courseId){
+        return assessmentService.getAssessmentsByCourseId(courseId);
+    }
+
     @PutMapping("/{id}")
     public AssessmentResponse update(
             @PathVariable Long id,
