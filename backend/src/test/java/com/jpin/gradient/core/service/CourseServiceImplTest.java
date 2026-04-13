@@ -171,6 +171,43 @@ public class CourseServiceImplTest {
         assertThat(responses.get(1).getAssessmentCount()).isEqualTo(0);
     }
 
+    @Test
+    void getCoursesByTermId_shouldReturnListOfCourseResponses() {
+        Term term = createTerm();
+        Course course1 = new Course();
+        course1.setId(10L);
+        course1.setName("Course 1");
+        course1.setTerm(term);
+
+        Course course2 = new Course();
+        course2.setId(20L);
+        course2.setName("Course 2");
+        course2.setTerm(term);
+
+        when(courseRepository.findByTermId(1L)).thenReturn(List.of(course1, course2));
+        when(assessmentRepository.countByCourseId(10L)).thenReturn(0L);
+        when(assessmentRepository.countByCourseId(20L)).thenReturn(0L);
+
+        List<CourseResponse> responses = courseService.getCoursesByTermId(1L);
+
+        assertThat(responses).hasSize(2);
+        assertThat(responses.get(0).getId()).isEqualTo(10L);
+        assertThat(responses.get(0).getName()).isEqualTo("Course 1");
+        assertThat(responses.get(0).getAssessmentCount()).isEqualTo(0);
+        assertThat(responses.get(1).getId()).isEqualTo(20L);
+        assertThat(responses.get(1).getName()).isEqualTo("Course 2");
+        assertThat(responses.get(1).getAssessmentCount()).isEqualTo(0);
+    }
+
+    @Test
+    void getCoursesByTermId_noCourses() {
+        when(courseRepository.findByTermId(1L)).thenReturn(List.of());
+
+        List<CourseResponse> responses = courseService.getCoursesByTermId(1L);
+
+        assertThat(responses).isEmpty();
+    }
+
     /** ========== UPDATE COURSE TESTS ========== **/
 
     @Test
