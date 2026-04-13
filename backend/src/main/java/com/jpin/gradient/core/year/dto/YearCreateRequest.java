@@ -1,4 +1,4 @@
-package com.jpin.gradient.core.year;
+package com.jpin.gradient.core.year.dto;
 
 import com.jpin.gradient.core.shared.validation.ValidDateRange;
 import jakarta.validation.constraints.NotBlank;

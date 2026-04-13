@@ -1,8 +1,9 @@
-package com.jpin.gradient.core.assessment;
+package com.jpin.gradient.core.assessment.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.jpin.gradient.core.assessment.AssessmentType;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;

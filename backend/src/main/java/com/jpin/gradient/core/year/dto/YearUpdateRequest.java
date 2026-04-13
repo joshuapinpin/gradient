@@ -1,5 +1,4 @@
-
-package com.jpin.gradient.core.term;
+package com.jpin.gradient.core.year.dto;
 
 import com.jpin.gradient.core.shared.validation.ValidDateRange;
 import jakarta.validation.constraints.Size;
@@ -11,11 +10,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ValidDateRange
-public class TermUpdateRequest {
+public class YearUpdateRequest {
 
     @Size(max = 50)
     private String name;
-
     private LocalDate startDate;
     private LocalDate endDate;
 }

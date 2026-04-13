@@ -1,9 +1,9 @@
 package com.jpin.gradient.core.shared.validation;
 
-import com.jpin.gradient.core.term.TermCreateRequest;
-import com.jpin.gradient.core.year.YearCreateRequest;
-import com.jpin.gradient.core.term.TermUpdateRequest;
-import com.jpin.gradient.core.year.YearUpdateRequest;
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.year.dto.YearCreateRequest;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
+import com.jpin.gradient.core.year.dto.YearUpdateRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

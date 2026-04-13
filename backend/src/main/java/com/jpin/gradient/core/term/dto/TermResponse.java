@@ -1,4 +1,4 @@
-package com.jpin.gradient.core.year;
+package com.jpin.gradient.core.term.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,10 +7,12 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class YearResponse {
+public class TermResponse {
 
     private Long id;
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Long yearId;
+
 }

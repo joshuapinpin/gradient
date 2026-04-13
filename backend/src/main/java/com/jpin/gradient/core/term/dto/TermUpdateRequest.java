@@ -1,27 +1,21 @@
-package com.jpin.gradient.core.term;
+
+package com.jpin.gradient.core.term.dto;
 
 import com.jpin.gradient.core.shared.validation.ValidDateRange;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
+@Setter
 @ValidDateRange
-public class TermCreateRequest {
+public class TermUpdateRequest {
 
-    @NotBlank
     @Size(max = 50)
     private String name;
 
-    // Optional start and end dates
     private LocalDate startDate;
     private LocalDate endDate;
-
-    @NotNull
-    private Long yearId;
 }

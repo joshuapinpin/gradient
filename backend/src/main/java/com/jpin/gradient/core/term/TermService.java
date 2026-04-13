@@ -1,5 +1,9 @@
 package com.jpin.gradient.core.term;
 
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.term.dto.TermResponse;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
+
 import java.util.List;
 
 public interface TermService {

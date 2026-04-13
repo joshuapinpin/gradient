@@ -2,6 +2,9 @@ package com.jpin.gradient.core.course;
 
 import java.util.List;
 
+import com.jpin.gradient.core.course.dto.CourseCreateRequest;
+import com.jpin.gradient.core.course.dto.CourseResponse;
+import com.jpin.gradient.core.course.dto.CourseUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

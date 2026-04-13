@@ -1,4 +1,4 @@
-package com.jpin.gradient.core.session;
+package com.jpin.gradient.core.session.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -1,5 +1,9 @@
 package com.jpin.gradient.core.year;
 
+import com.jpin.gradient.core.year.dto.YearCreateRequest;
+import com.jpin.gradient.core.year.dto.YearResponse;
+import com.jpin.gradient.core.year.dto.YearUpdateRequest;
+
 import java.util.List;
 
 public interface YearService {

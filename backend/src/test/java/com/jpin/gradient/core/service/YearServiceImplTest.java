@@ -1,9 +1,9 @@
 package com.jpin.gradient.core.service;
 
 
-import com.jpin.gradient.core.year.YearCreateRequest;
-import com.jpin.gradient.core.year.YearResponse;
-import com.jpin.gradient.core.year.YearUpdateRequest;
+import com.jpin.gradient.core.year.dto.YearCreateRequest;
+import com.jpin.gradient.core.year.dto.YearResponse;
+import com.jpin.gradient.core.year.dto.YearUpdateRequest;
 import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
 import com.jpin.gradient.core.year.Year;
 import com.jpin.gradient.core.year.YearRepository;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class YearServiceTest {
+public class YearServiceImplTest {
     @Mock
     private YearRepository yearRepository;
 

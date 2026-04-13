@@ -1,5 +1,9 @@
 package com.jpin.gradient.core.assessment;
 
+import com.jpin.gradient.core.assessment.dto.AssessmentCreateRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentGradeRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentResponse;
+import com.jpin.gradient.core.assessment.dto.AssessmentUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

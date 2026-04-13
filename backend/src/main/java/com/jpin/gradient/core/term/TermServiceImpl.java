@@ -1,6 +1,9 @@
 package com.jpin.gradient.core.term;
 
 import com.jpin.gradient.core.course.Course;
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.term.dto.TermResponse;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
 import com.jpin.gradient.core.year.Year;
 import com.jpin.gradient.core.course.CourseRepository;
 import com.jpin.gradient.core.year.YearRepository;

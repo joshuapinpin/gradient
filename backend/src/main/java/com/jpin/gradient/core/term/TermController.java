@@ -1,5 +1,8 @@
 package com.jpin.gradient.core.term;
 
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.term.dto.TermResponse;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

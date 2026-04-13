@@ -1,4 +1,4 @@
-package com.jpin.gradient.core.session;
+package com.jpin.gradient.core.session.model;
 
 import com.jpin.gradient.core.course.Course;
 import jakarta.persistence.*;

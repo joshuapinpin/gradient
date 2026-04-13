@@ -2,6 +2,10 @@ package com.jpin.gradient.core.assessment;
 
 import java.util.List;
 
+import com.jpin.gradient.core.assessment.dto.AssessmentCreateRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentGradeRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentResponse;
+import com.jpin.gradient.core.assessment.dto.AssessmentUpdateRequest;
 import com.jpin.gradient.core.course.Course;
 import com.jpin.gradient.core.course.CourseRepository;
 import org.springframework.stereotype.Service;

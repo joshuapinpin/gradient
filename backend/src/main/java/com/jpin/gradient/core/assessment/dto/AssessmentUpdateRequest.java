@@ -1,5 +1,6 @@
-package com.jpin.gradient.core.assessment;
+package com.jpin.gradient.core.assessment.dto;
 
+import com.jpin.gradient.core.assessment.AssessmentType;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;

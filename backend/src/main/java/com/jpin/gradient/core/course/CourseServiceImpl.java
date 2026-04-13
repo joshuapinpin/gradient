@@ -3,6 +3,9 @@ package com.jpin.gradient.core.course;
 import java.util.List;
 
 import com.jpin.gradient.core.assessment.Assessment;
+import com.jpin.gradient.core.course.dto.CourseCreateRequest;
+import com.jpin.gradient.core.course.dto.CourseResponse;
+import com.jpin.gradient.core.course.dto.CourseUpdateRequest;
 import com.jpin.gradient.core.term.Term;
 import com.jpin.gradient.core.term.TermRepository;
 import org.springframework.stereotype.Service;

@@ -3,6 +3,9 @@ package com.jpin.gradient.core.service;
 import com.jpin.gradient.core.assessment.Assessment;
 import com.jpin.gradient.core.assessment.AssessmentType;
 import com.jpin.gradient.core.course.*;
+import com.jpin.gradient.core.course.dto.CourseCreateRequest;
+import com.jpin.gradient.core.course.dto.CourseResponse;
+import com.jpin.gradient.core.course.dto.CourseUpdateRequest;
 import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
 import com.jpin.gradient.core.assessment.AssessmentRepository;
 import com.jpin.gradient.core.term.Term;
@@ -24,7 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CourseServiceTest {
+public class CourseServiceImplTest {
     @Mock
     private CourseRepository courseRepository;
     @Mock

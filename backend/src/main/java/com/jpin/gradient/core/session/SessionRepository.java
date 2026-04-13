@@ -1,5 +1,6 @@
 package com.jpin.gradient.core.session;
 
+import com.jpin.gradient.core.session.model.SessionSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

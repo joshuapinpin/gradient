@@ -1,7 +1,7 @@
 package com.jpin.gradient.core.service;
 
-import com.jpin.gradient.core.term.TermCreateRequest;
-import com.jpin.gradient.core.term.TermResponse;
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.term.dto.TermResponse;
 import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
 import com.jpin.gradient.core.term.Term;
 import com.jpin.gradient.core.year.Year;
@@ -18,12 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
-import com.jpin.gradient.core.term.TermUpdateRequest;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
 
 import java.time.LocalDate;
 
 @ExtendWith(MockitoExtension.class)
-public class TermServiceTest {
+public class TermServiceImplTest {
 	@Mock
 	private TermRepository termRepository;
 

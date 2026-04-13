@@ -1,8 +1,9 @@
-package com.jpin.gradient.core.assessment;
+package com.jpin.gradient.core.assessment.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.jpin.gradient.core.assessment.AssessmentType;
 import lombok.Getter;
 import lombok.Setter;
 

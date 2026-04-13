@@ -1,4 +1,4 @@
-package com.jpin.gradient.core.course;
+package com.jpin.gradient.core.course.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
