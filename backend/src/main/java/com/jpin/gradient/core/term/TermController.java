@@ -35,6 +35,11 @@ public class TermController {
         return termService.getTerms();
     }
 
+    @GetMapping("year/{yearId}")
+    public List<TermResponse> getByYearId(@PathVariable Long yearId) {
+        return termService.getTermsByYearId(yearId);
+    }
+
     @PutMapping("/{id}")
     public TermResponse update(
             @PathVariable Long id,

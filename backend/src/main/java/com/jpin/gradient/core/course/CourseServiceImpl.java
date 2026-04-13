@@ -59,7 +59,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseResponse> getCoursesByTermId(Long termId) {
-        return courseRepository.findByTermId(termId).stream()
+        Term term = findTermByIdOrThrow(termId);
+        return courseRepository.findByTermId(term.getId()).stream()
                 .map(this::toResponse)
                 .toList();
     }

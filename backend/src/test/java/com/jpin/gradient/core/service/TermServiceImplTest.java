@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import com.jpin.gradient.core.term.dto.TermUpdateRequest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class TermServiceImplTest {
@@ -84,6 +85,38 @@ public class TermServiceImplTest {
 	void getTermById_shouldThrowExceptionWhenNotFound() {
 		Mockito.when(termRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 		assertThrows(ResourceNotFoundException.class, () -> termService.getTermById(1L));
+	}
+
+	@Test
+	void getTermsByYearId_shouldReturnTerms() {
+		Year year = createSampleYear();
+		Term term1 = new Term();
+		term1.setId(1L);
+		term1.setName("Spring 2026");
+		term1.setYear(year);
+
+		Term term2 = new Term();
+		term2.setId(2L);
+		term2.setName("Fall 2026");
+		term2.setYear(year);
+
+		Mockito.when(termRepository.findByYearId(1L)).thenReturn(List.of(term1, term2));
+		Mockito.when(yearRepository.findById(1L)).thenReturn(java.util.Optional.of(year));
+
+		List<TermResponse> responses = termService.getTermsByYearId(1L);
+
+		assertNotNull(responses);
+		assertEquals(2, responses.size());
+		assertEquals(1L, responses.get(0).getId());
+		assertEquals("Spring 2026", responses.get(0).getName());
+		assertEquals(2L, responses.get(1).getId());
+		assertEquals("Fall 2026", responses.get(1).getName());
+	}
+
+	@Test
+	void getTermsByYearId_shouldThrowExceptionWhenYearNotFound() {
+		Mockito.when(yearRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+		assertThrows(ResourceNotFoundException.class, () -> termService.getTermsByYearId(1L));
 	}
 
 	@Test
