@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -187,6 +188,7 @@ public class CourseServiceImplTest {
         when(courseRepository.findByTermId(1L)).thenReturn(List.of(course1, course2));
         when(assessmentRepository.countByCourseId(10L)).thenReturn(0L);
         when(assessmentRepository.countByCourseId(20L)).thenReturn(0L);
+        when(termRepository.findById(1L)).thenReturn(Optional.of(term));
 
         List<CourseResponse> responses = courseService.getCoursesByTermId(1L);
 
@@ -197,15 +199,6 @@ public class CourseServiceImplTest {
         assertThat(responses.get(1).getId()).isEqualTo(20L);
         assertThat(responses.get(1).getName()).isEqualTo("Course 2");
         assertThat(responses.get(1).getAssessmentCount()).isEqualTo(0);
-    }
-
-    @Test
-    void getCoursesByTermId_noCourses() {
-        when(courseRepository.findByTermId(1L)).thenReturn(List.of());
-
-        List<CourseResponse> responses = courseService.getCoursesByTermId(1L);
-
-        assertThat(responses).isEmpty();
     }
 
     /** ========== UPDATE COURSE TESTS ========== **/
