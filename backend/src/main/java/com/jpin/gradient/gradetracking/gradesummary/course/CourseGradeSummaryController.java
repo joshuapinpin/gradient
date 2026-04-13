@@ -1,6 +1,7 @@
 package com.jpin.gradient.gradetracking.gradesummary.course;
 
-import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeSummaryResponse;
+import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeFullSummary;
+import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeSimpleSummary;
 import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeTargetsResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +21,12 @@ public class CourseGradeSummaryController {
     }
 
     @GetMapping("{courseId}/average")
-    public CourseGradeSummaryResponse getAverageGrade(Long courseId) {
-        return courseGradeSummaryService.getAverageGrade(courseId);
+    public CourseGradeSimpleSummary getAverageGrade(Long courseId) {
+        return courseGradeSummaryService.getSimpleSummary(courseId);
     }
 
-    @GetMapping("{courseId}/targets")
-    public List<CourseGradeTargetsResponse> getRequiredAveragesForAllTargets(
-            @PathVariable Long courseId) {
-        return courseGradeSummaryService.getRequiredAveragesForAllTargets(courseId);
+    @GetMapping("{courseId}/full-summary")
+    public CourseGradeFullSummary getFullSummary(@PathVariable Long courseId){
+            return courseGradeSummaryService.getFullSummary(courseId);
     }
 }
