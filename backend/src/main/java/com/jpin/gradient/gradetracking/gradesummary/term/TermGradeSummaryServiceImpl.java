@@ -42,6 +42,7 @@ public class TermGradeSummaryServiceImpl implements TermGradeSummaryService {
     public TermGradeSimpleSummary getSimpleSummary(Long termId) {
         // get all the courses from course service
         List<CourseResponse> termCourses = courseService.getCoursesByTermId(termId);
+        if(termCourses.isEmpty()) return emptySummary(termId);
 
         // get the simple summary for each course
         List<CourseGradeSimpleSummary> courseSummaries = termCourses.stream()
@@ -53,20 +54,38 @@ public class TermGradeSummaryServiceImpl implements TermGradeSummaryService {
     }
 
     private TermGradeSimpleSummary createTermSimpleSummary(List<CourseGradeSimpleSummary> courseSummaries, Long termId) {
-        double averageGrade = courseSummaries.stream()
-                .mapToDouble(ss -> ss.getAverageGrade().doubleValue())
+        List<GradeConversion> conversions = courseSummaries.stream()
+                .map(ss -> gradeSchemeStrategy.convertGrade(ss.getAverageGrade()))
+                .toList();
+
+        double averageGrade = conversions.stream()
+                .mapToDouble(ss -> ss.getGrade().doubleValue())
+                .average()
+                .orElse(0.0);
+        double averageGpa = conversions.stream()
+                .mapToDouble(ss -> ss.getGpaValue().doubleValue())
                 .average()
                 .orElse(0.0);
 
         BigDecimal grade = BigDecimal.valueOf(averageGrade).setScale(2, RoundingMode.HALF_UP);
-        GradeConversion conversion = gradeSchemeStrategy.convertGrade(grade);
+        BigDecimal gpa = BigDecimal.valueOf(averageGpa).setScale(2, RoundingMode.HALF_UP);
+        String classification = gradeSchemeStrategy.convertToClassification(BigDecimal.valueOf(averageGrade));
 
         TermGradeSimpleSummary termSummary = new TermGradeSimpleSummary();
         termSummary.setTermId(termId);
         termSummary.setAverageGrade(grade);
-        termSummary.setAverageGpa(conversion.getGpaValue());
-        termSummary.setClassification(conversion.getClassification());
+        termSummary.setAverageGpa(gpa);
+        termSummary.setClassification(classification);
 
+        return termSummary;
+    }
+
+    private TermGradeSimpleSummary emptySummary(Long termId) {
+        TermGradeSimpleSummary termSummary = new TermGradeSimpleSummary();
+        termSummary.setTermId(termId);
+        termSummary.setAverageGrade(BigDecimal.ZERO);
+        termSummary.setAverageGpa(BigDecimal.ZERO);
+        termSummary.setClassification("N/A");
         return termSummary;
     }
 }

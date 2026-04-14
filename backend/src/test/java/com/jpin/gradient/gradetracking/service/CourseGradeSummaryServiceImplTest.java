@@ -1,4 +1,4 @@
-package com.jpin.gradient.gradetracking;
+package com.jpin.gradient.gradetracking.service;
 
 import com.jpin.gradient.core.assessment.AssessmentService;
 import com.jpin.gradient.core.assessment.dto.AssessmentResponse;
@@ -27,6 +27,7 @@ public class CourseGradeSummaryServiceImplTest {
 
     @Mock
     private AssessmentService assessmentService;
+
     private CourseGradeSummaryServiceImpl courseGradeSummaryService;
 
     @BeforeEach

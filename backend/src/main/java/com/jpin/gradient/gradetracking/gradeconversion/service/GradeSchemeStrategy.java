@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface GradeSchemeStrategy {
     GradeConversion convertGrade(BigDecimal grade);
+    String convertToClassification(BigDecimal grade);
     List<GradeType> getGradeTypes();
 }

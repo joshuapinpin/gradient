@@ -1,4 +1,4 @@
-package com.jpin.gradient.gradetracking;
+package com.jpin.gradient.gradetracking.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpin.gradient.gradetracking.gradesummary.course.CourseGradeSummaryController;

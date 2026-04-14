@@ -33,6 +33,16 @@ public class AusGradeScheme implements GradeSchemeStrategy {
     }
 
     @Override
+    public String convertToClassification(BigDecimal grade) {
+        for (GradeType scheme : GRADE_LIST) {
+            if (grade.compareTo(scheme.getMinGrade()) >= 0) {
+                return scheme.getClassification();
+            }
+        }
+        throw new IllegalArgumentException("GradeType is out of range: " + grade);
+    }
+
+    @Override
     public List<GradeType> getGradeTypes() {
         return GRADE_LIST;
     }
