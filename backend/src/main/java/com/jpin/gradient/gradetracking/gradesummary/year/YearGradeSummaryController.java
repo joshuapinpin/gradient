@@ -1,6 +1,6 @@
 package com.jpin.gradient.gradetracking.gradesummary.year;
 
-import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeSimpleSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.YearGradeSimpleSummary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class YearGradeSummaryController {
     }
 
     @GetMapping("{yearId}/average")
-    public CourseGradeSimpleSummary getAverageGrade(@PathVariable Long yearId) {
+    public YearGradeSimpleSummary getAverageGrade(@PathVariable Long yearId) {
         return yearGradeSummaryService.getSimpleSummary(yearId);
     }
 }

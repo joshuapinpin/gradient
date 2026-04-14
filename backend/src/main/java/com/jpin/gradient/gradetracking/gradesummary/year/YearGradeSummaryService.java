@@ -1,7 +1,7 @@
 package com.jpin.gradient.gradetracking.gradesummary.year;
 
-import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeSimpleSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.YearGradeSimpleSummary;
 
 public interface YearGradeSummaryService {
-    CourseGradeSimpleSummary getSimpleSummary(Long yearId);
+    YearGradeSimpleSummary getSimpleSummary(Long yearId);
 }
