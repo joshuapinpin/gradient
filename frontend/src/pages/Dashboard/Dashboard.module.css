@@ -1,6 +1,6 @@
 .page {
   padding: 32px 32px 48px;
-  max-width: 1200px;
+  max-width: 1100px;
 }
 
 .header {
@@ -29,7 +29,7 @@
   gap: 10px;
 }
 
-.termSelect {
+.yearSelect {
   padding: 8px 32px 8px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
@@ -41,6 +41,15 @@
   outline: none;
 }
 
+.addMenu {
+  position: relative;
+}
+
+.addMenu:hover .addDropdown,
+.addMenu:focus-within .addDropdown {
+  display: flex;
+}
+
 .addBtn {
   display: flex;
   align-items: center;
@@ -49,41 +58,77 @@
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 9px 16px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s;
 }
 
-.addBtn:hover {
-  background: #1d4ed8;
+.addBtn:hover { background: #1d4ed8; }
+
+.addDropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.14);
+  border: 1px solid #e2e8f0;
+  flex-direction: column;
+  min-width: 160px;
+  overflow: hidden;
+  z-index: 100;
 }
+
+.addDropdown button {
+  background: none;
+  border: none;
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 13px;
+  color: #334155;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.1s;
+}
+
+.addDropdown button:hover:not(:disabled) { background: #f8fafc; }
+.addDropdown button:disabled { color: #cbd5e1; cursor: not-allowed; }
 
 .statsRow {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.mainGrid {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 20px;
-  align-items: start;
+.termTabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-.leftCol {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.termTab {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s;
 }
 
-.rightCol {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.termTab:hover { border-color: #2563eb; color: #2563eb; }
+.activeTab {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+  font-weight: 600;
 }
 
 .section {
@@ -91,6 +136,7 @@
   border-radius: 12px;
   padding: 22px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
 }
 
 .sectionHeader {
@@ -107,20 +153,12 @@
   margin: 0;
 }
 
-.viewAll {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: #2563eb;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
+.sectionSub {
+  font-weight: 500;
+  color: #64748b;
 }
 
-.markAttendance {
+.viewAll {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -130,257 +168,222 @@
   font-size: 12.5px;
   font-weight: 600;
   cursor: pointer;
-  padding: 0;
 }
 
-.courseList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
 }
 
 .courseCard {
-  border: 1px solid #f1f5f9;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 10px;
-  padding: 14px 16px;
-  background: #fafafa;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.courseTop {
+.courseCard:hover {
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.1);
+}
+
+.courseCardTop {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 10px;
-  gap: 12px;
+  gap: 8px;
 }
 
-.courseCode {
-  font-size: 13.5px;
+.courseCardName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.classBadge {
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.noBadge {
+  font-size: 11px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.gradeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.gradeVal {
+  font-size: 20px;
   font-weight: 700;
   color: #0f172a;
 }
 
-.courseGrade {
+.gpaVal {
   font-size: 12px;
   color: #64748b;
-  margin-top: 2px;
 }
 
-.required {
+.noGradeRow {
+  margin-top: 4px;
+}
+
+.noGradeText {
   font-size: 11.5px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.weightRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.weightLabel {
-  font-size: 11px;
   color: #94a3b8;
+  margin-top: 6px;
+  display: block;
 }
 
-.weightValue {
-  font-size: 11px;
-  color: #94a3b8;
-}
-
-.assessmentList {
-  margin-top: 10px;
+.addCourseCard {
+  background: white;
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.assessmentRow {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #475569;
-  padding: 2px 0;
-}
-
-.assessmentName {
-  color: #475569;
-}
-
-.assessmentScore {
-  color: #64748b;
-  font-weight: 500;
-}
-
-.addAssignmentBtn {
-  display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  padding: 11px;
+  color: #94a3b8;
+  font-size: 13px;
+  min-height: 100px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.addCourseCard:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.loadingRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.skeleton {
+  height: 100px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  border-radius: 10px;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.emptyCourses {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+}
+
+.emptyCourses p { font-size: 14px; margin: 0 0 12px; }
+
+.inlineAddBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: #2563eb;
   color: white;
   border: none;
   border-radius: 8px;
+  padding: 8px 16px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
 }
 
-.addAssignmentBtn:hover {
-  background: #1d4ed8;
-}
-
-.attendanceSection {}
-
-.attendanceGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.attendanceCard {
-  background: #fafafa;
-  border: 1px solid #f1f5f9;
-  border-radius: 10px;
-  padding: 13px 14px;
-}
-
-.attendanceTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2px;
-}
-
-.attendanceCourse {
-  font-size: 13px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.attendancePct {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.attendedLabel {
-  font-size: 11.5px;
-  color: #94a3b8;
-  margin-bottom: 7px;
-}
-
-.attendedCount {
-  font-weight: 600;
-  color: #64748b;
-}
-
-.perfectNote {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 8px;
-  font-size: 11px;
-  color: #16a34a;
-  font-weight: 500;
-}
-
-.missedNote {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
-  margin-top: 8px;
-}
-
-.missedText {
-  font-size: 11px;
-  color: #92400e;
-}
-
-.reviewLink {
-  font-size: 11px;
-  color: #2563eb;
-  text-decoration: none;
-  display: block;
-}
-
-.reviewLink:hover {
-  text-decoration: underline;
-}
-
-.assignmentList {
+.emptyState {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 14px;
+  text-align: center;
 }
 
-.assignmentCard {
-  border: 1px solid #f1f5f9;
-  border-radius: 10px;
-  padding: 14px 16px;
-  background: #fafafa;
-}
-
-.assignmentTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.assignmentInfo {}
-
-.assignmentName {
-  font-size: 13.5px;
+.emptyState h2 {
+  font-size: 20px;
   font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 2px;
+  color: #334155;
+  margin: 0;
 }
 
-.assignmentCourse {
-  font-size: 11.5px;
-  color: #64748b;
+.emptyState p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
 }
 
-.assignmentBadges {
-  display: flex;
-  gap: 6px;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.progressRow {
+.emptyBtn {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
 }
 
-.progressLabel {
-  font-size: 11.5px;
-  color: #64748b;
-  white-space: nowrap;
-  min-width: 80px;
+.emptyBtn:hover { background: #1d4ed8; }
+
+.statsSection {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
-.dueInfo {
+.statsSection .sectionTitle {
+  margin-bottom: 16px;
+}
+
+.quickStats {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
 }
 
-.daysLeft {
-  font-size: 12px;
-  font-weight: 700;
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.dueDate {
+.statLabel {
   font-size: 11.5px;
   color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
 }

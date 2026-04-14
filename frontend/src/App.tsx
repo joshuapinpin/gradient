@@ -3,8 +3,6 @@ import type { Page } from './types';
 import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import GradeTracker from './pages/GradeTracker/GradeTracker';
-import AssessmentTracker from './pages/AssessmentTracker/AssessmentTracker';
-import ScheduleTracker from './pages/ScheduleTracker/ScheduleTracker';
 
 export default function App() {
   const [activePage, setActivePage] = useState<Page>('dashboard');
@@ -13,8 +11,6 @@ export default function App() {
     switch (activePage) {
       case 'dashboard': return <Dashboard onNavigate={setActivePage} />;
       case 'grades': return <GradeTracker />;
-      case 'assessments': return <AssessmentTracker />;
-      case 'schedule': return <ScheduleTracker />;
     }
   };
 

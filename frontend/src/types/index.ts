@@ -1,6 +1,6 @@
+export type Page = 'dashboard' | 'grades';
 export type Priority = 'High' | 'Medium' | 'Low';
 export type AssessmentStatus = 'Not Started' | 'In Progress' | 'Completed';
-export type Page = 'dashboard' | 'grades' | 'assessments' | 'schedule';
 
 export interface Assessment {
   id: string;
