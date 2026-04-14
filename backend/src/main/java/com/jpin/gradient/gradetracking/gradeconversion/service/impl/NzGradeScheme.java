@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Service("nzGradeConversionStrategy")
 public class NzGradeScheme implements GradeSchemeStrategy {
-    private static final List<GradeType> GRADE_LIST = List.of(
+    public static final List<GradeType> GRADE_LIST = List.of(
             new GradeType(BigDecimal.valueOf(90), BigDecimal.valueOf(100), BigDecimal.valueOf(9.0), "A+"),
             new GradeType(BigDecimal.valueOf(85), BigDecimal.valueOf(89.99), BigDecimal.valueOf(8.0), "A"),
             new GradeType(BigDecimal.valueOf(80), BigDecimal.valueOf(84.99), BigDecimal.valueOf(7.0), "A-"),

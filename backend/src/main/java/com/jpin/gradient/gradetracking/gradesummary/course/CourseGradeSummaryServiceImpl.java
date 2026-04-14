@@ -7,6 +7,7 @@ import com.jpin.gradient.gradetracking.gradeconversion.model.GradeType;
 import com.jpin.gradient.gradetracking.gradeconversion.service.GradeSchemeStrategy;
 import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeFullSummary;
 import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeSimpleSummary;
+import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeTarget;
 import lombok.Setter;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Setter
 @Service
@@ -33,6 +35,12 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
         this.gradeSchemeStrategyMap = gradeSchemeStrategyMap;
     }
 
+
+    /**
+     * Get a simple course grade summary, including average grade, GPA, and classification.
+     * @param courseId
+     * @return CourseGradeSimpleSummary summary about the grade
+     */
     @Override
     public CourseGradeSimpleSummary getSimpleSummary(Long courseId) {
         CourseGradeFullSummary fullSummary = getFullSummary(courseId);
@@ -45,6 +53,11 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
         return simpleSummary;
     }
 
+    /**
+     * Get the full course grade summary, including average grade, GPA, classification,
+     * percentage graded, and possible grade targets.
+     * This method is cached to improve performance, as it may involve multiple database calls.
+     */
     @Override
     @Cacheable(value = "courseGradeFullSummary", key = "#courseId")
     public CourseGradeFullSummary getFullSummary(Long courseId) {
@@ -52,9 +65,12 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
         return createFullSummary(assessmentResponses, courseId);
     }
 
+    /**
+     * Evict the cache for the course grade summary when assessments are updated.
+     * This method can be called by the AssessmentService after any update to assessments.
+     */
     @CacheEvict(value = "courseGradeFullSummary", key = "#courseId")
     public void evictCourseGradeSummaryCache(Long courseId) {
-        // This method can be called after any assessment grade is updated to ensure the cache is refreshed.
         // No implementation needed, annotation handles cache eviction
     }
 
@@ -69,7 +85,7 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
 
         GradeSchemeStrategy strategy = gradeSchemeStrategyMap.get(DEFAULT_STRATEGY);
         GradeConversion gradeConversion = strategy
-                .convertGrade(BigDecimal.valueOf(totalWeightedGrade / totalWeight));
+                .convertGrade(BigDecimal.valueOf((totalWeightedGrade / totalWeight) * 100));
 
         // Build the full summary
         CourseGradeFullSummary summary = new CourseGradeFullSummary();
@@ -77,11 +93,13 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
         summary.setAverageGrade(gradeConversion.getGrade());
         summary.setAverageGpa(gradeConversion.getGpaValue());
         summary.setClassification(gradeConversion.getClassification());
+        summary.setPercentageGraded(BigDecimal.valueOf(totalWeight));
         summary.setMinPossibleGrade(minPossibleGrade(totalWeightedGrade, totalWeight));
         summary.setMaxPossibleGrade(maxPossibleGrade(totalWeightedGrade, totalWeight));
 
         for(GradeType gradeType : strategy.getGradeTypes()) {
-            summary.addGradeTarget(gradeType, gradeType.getMinGrade());
+            Optional<CourseGradeTarget> target = createGradeTarget(gradeType, totalWeightedGrade, totalWeight);
+            target.ifPresent(summary::addGradeTarget);
         }
 
         return summary;
@@ -113,6 +131,22 @@ public class CourseGradeSummaryServiceImpl implements CourseGradeSummaryService 
             }
         }
         return new double[]{totalWeightedGrade, totalWeight};
+    }
+
+    private Optional<CourseGradeTarget> createGradeTarget(GradeType gradeType, double totalWeightedGrade, double totalWeight){
+        double remainingWeight = 100.0 - totalWeight;
+        if (remainingWeight <= 0.0)  return Optional.empty();
+
+        double requiredGrade = (gradeType.getMinGrade().doubleValue() - totalWeightedGrade)
+                / (remainingWeight / 100.0);
+
+        if(requiredGrade < 0 || requiredGrade > 100) return Optional.empty();
+
+        CourseGradeTarget target = new CourseGradeTarget();
+        target.setClassification(gradeType.getClassification());
+        target.setRequiredAverage(BigDecimal.valueOf(requiredGrade));
+
+        return Optional.of(target);
     }
 
     private CourseGradeFullSummary emptySummary(Long courseId) {
