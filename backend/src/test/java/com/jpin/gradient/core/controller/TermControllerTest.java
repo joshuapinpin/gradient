@@ -2,12 +2,11 @@ package com.jpin.gradient.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jpin.gradient.core.controller.TermController;
-import com.jpin.gradient.core.dto.create.TermCreateRequest;
-import com.jpin.gradient.core.dto.response.TermResponse;
-import com.jpin.gradient.core.dto.update.TermUpdateRequest;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.service.TermService;
+import com.jpin.gradient.core.term.*;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
+import com.jpin.gradient.core.term.dto.TermCreateRequest;
+import com.jpin.gradient.core.term.dto.TermResponse;
+import com.jpin.gradient.core.term.dto.TermUpdateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,13 +21,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.jpin.gradient.core.exception.ApiExceptionHandler;
+import com.jpin.gradient.core.shared.exception.ApiExceptionHandler;
 
 @ExtendWith(MockitoExtension.class)
 class TermControllerTest {
@@ -156,6 +156,44 @@ class TermControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id").value(1L))
 				.andExpect(jsonPath("$[0].name").value("Spring 2026"));
+	}
+
+	@Test
+	void getTermsByYearId() throws Exception {
+		TermResponse resp1 = new TermResponse();
+		resp1.setId(1L);
+		resp1.setName("Spring 2026");
+		resp1.setYearId(1L);
+
+		TermResponse resp2 = new TermResponse();
+		resp2.setId(2L);
+		resp2.setName("Fall 2026");
+		resp2.setYearId(1L);
+
+		Mockito.when(termService.getTermsByYearId(1L)).thenReturn(List.of(resp1, resp2));
+		mockMvc.perform(get("/api/terms/year/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].id").value(1L))
+				.andExpect(jsonPath("$[0].name").value("Spring 2026"))
+				.andExpect(jsonPath("$[0].yearId").value(1L))
+				.andExpect(jsonPath("$[1].id").value(2L))
+				.andExpect(jsonPath("$[1].name").value("Fall 2026"))
+				.andExpect(jsonPath("$[1].yearId").value(1L));
+	}
+
+	@Test
+	void getTermsByYearId_noTerms() throws Exception {
+		Mockito.when(termService.getTermsByYearId(999L)).thenReturn(Collections.emptyList());
+		mockMvc.perform(get("/api/terms/year/999"))
+				.andExpect(status().isOk())
+				.andExpect(content().json("[]"));
+	}
+
+	@Test
+	void getTermsByYearId_yearNotFound() throws Exception {
+		Mockito.when(termService.getTermsByYearId(999L)).thenThrow(new ResourceNotFoundException("Year not found"));
+		mockMvc.perform(get("/api/terms/year/999"))
+				.andExpect(status().isNotFound());
 	}
 
     /** ========== UPDATE TESTS ==========  **/

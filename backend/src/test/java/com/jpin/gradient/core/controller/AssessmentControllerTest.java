@@ -2,15 +2,15 @@ package com.jpin.gradient.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jpin.gradient.core.controller.AssessmentController;
-import com.jpin.gradient.core.dto.create.AssessmentCreateRequest;
-import com.jpin.gradient.core.dto.response.AssessmentResponse;
-import com.jpin.gradient.core.dto.update.AssessmentGradeRequest;
-import com.jpin.gradient.core.dto.update.AssessmentUpdateRequest;
-import com.jpin.gradient.core.exception.ApiExceptionHandler;
-import com.jpin.gradient.core.exception.ResourceNotFoundException;
-import com.jpin.gradient.core.model.AssessmentType;
-import com.jpin.gradient.core.service.AssessmentService;
+import com.jpin.gradient.core.assessment.AssessmentController;
+import com.jpin.gradient.core.assessment.dto.AssessmentCreateRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentResponse;
+import com.jpin.gradient.core.assessment.dto.AssessmentGradeRequest;
+import com.jpin.gradient.core.assessment.dto.AssessmentUpdateRequest;
+import com.jpin.gradient.core.shared.exception.ApiExceptionHandler;
+import com.jpin.gradient.core.shared.exception.ResourceNotFoundException;
+import com.jpin.gradient.core.assessment.AssessmentType;
+import com.jpin.gradient.core.assessment.AssessmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -191,6 +191,52 @@ public class AssessmentControllerTest {
         mockMvc.perform(get("/api/assessments"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
+    }
+
+    @Test
+    void getAssessmentsByCourseId() throws Exception {
+        AssessmentResponse response1 = new AssessmentResponse();
+        response1.setId(1L);
+        response1.setName("Course 1 Assessment");
+        response1.setWeight(new BigDecimal("20.0"));
+        response1.setAssessmentType(AssessmentType.EXAM);
+        response1.setCourseId(1L);
+
+        AssessmentResponse response2 = new AssessmentResponse();
+        response2.setId(2L);
+        response2.setName("Course 1 Assessment 2");
+        response2.setWeight(new BigDecimal("30.0"));
+        response2.setAssessmentType(AssessmentType.HOMEWORK);
+        response2.setCourseId(1L);
+
+        Mockito.when(assessmentService.getAssessmentsByCourseId(1L)).thenReturn(List.of(response1, response2));
+        mockMvc.perform(get("/api/assessments/course/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].name").value("Course 1 Assessment"))
+                .andExpect(jsonPath("$[0].weight").value(20.0))
+                .andExpect(jsonPath("$[0].assessmentType").value("EXAM"))
+                .andExpect(jsonPath("$[0].courseId").value(1L))
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].name").value("Course 1 Assessment 2"))
+                .andExpect(jsonPath("$[1].weight").value(30.0))
+                .andExpect(jsonPath("$[1].assessmentType").value("HOMEWORK"))
+                .andExpect(jsonPath("$[1].courseId").value(1L));
+    }
+
+    @Test
+    void getAssessmentsByCourseId_noAssessments() throws Exception {
+        Mockito.when(assessmentService.getAssessmentsByCourseId(1L)).thenReturn(List.of());
+        mockMvc.perform(get("/api/assessments/course/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+    }
+
+    @Test
+    void getAssessmentsByCourseId_courseNotFound() throws Exception {
+        Mockito.when(assessmentService.getAssessmentsByCourseId(999L)).thenThrow(new ResourceNotFoundException("Course not found"));
+        mockMvc.perform(get("/api/assessments/course/999"))
+                .andExpect(status().isNotFound());
     }
 
     /** ========== UPDATE ASSESSMENT TESTS ========== **/
