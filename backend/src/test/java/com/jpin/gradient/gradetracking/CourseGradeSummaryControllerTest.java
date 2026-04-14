@@ -3,9 +3,9 @@ package com.jpin.gradient.gradetracking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpin.gradient.gradetracking.gradesummary.course.CourseGradeSummaryController;
 import com.jpin.gradient.gradetracking.gradesummary.course.CourseGradeSummaryService;
-import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeFullSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeFullSummary;
 import com.jpin.gradient.core.shared.exception.ApiExceptionHandler;
-import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeSimpleSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeSimpleSummary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,7 +56,7 @@ public class CourseGradeSummaryControllerTest {
 
         Mockito.when(courseGradeSummaryService.getFullSummary(courseId)).thenReturn(summary);
 
-        mockMvc.perform(get("/api/grade-summaries/courses/{courseId}/full-summary", courseId))
+        mockMvc.perform(get("/api/grade-summaries/course/{courseId}/full-summary", courseId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.courseId").value(courseId))
                 .andExpect(jsonPath("$.averageGrade").value(83.5))
@@ -75,7 +75,7 @@ public class CourseGradeSummaryControllerTest {
 
         Mockito.when(courseGradeSummaryService.getSimpleSummary(courseId)).thenReturn(simpleSummary);
 
-        mockMvc.perform(get("/api/grade-summaries/courses/{courseId}/average", courseId))
+        mockMvc.perform(get("/api/grade-summaries/course/{courseId}/average", courseId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.courseId").value(courseId))
                 .andExpect(jsonPath("$.averageGrade").value(83.5))

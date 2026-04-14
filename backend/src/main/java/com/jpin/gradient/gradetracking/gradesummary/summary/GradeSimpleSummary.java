@@ -1,4 +1,4 @@
-package com.jpin.gradient.gradetracking.gradesummary.course.dto;
+package com.jpin.gradient.gradetracking.gradesummary.summary;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -8,10 +8,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CourseGradeSimpleSummary {
-
-    @NotNull
-    private Long courseId;
+public class GradeSimpleSummary {
 
     @NotNull
     private BigDecimal averageGrade;

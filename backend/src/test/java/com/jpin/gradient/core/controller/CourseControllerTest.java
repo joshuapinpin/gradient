@@ -195,6 +195,8 @@ class CourseControllerTest {
 				.andExpect(status().isNotFound())
 				.andExpect(jsonPath("$.message").value("Term not found with id: 999"));
 	}
+
+
 	/** ========== UPDATE COURSE TESTS ========== **/
 
 	@Test

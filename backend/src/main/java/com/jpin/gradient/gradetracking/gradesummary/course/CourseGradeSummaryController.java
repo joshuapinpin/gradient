@@ -1,14 +1,14 @@
 package com.jpin.gradient.gradetracking.gradesummary.course;
 
-import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeFullSummary;
-import com.jpin.gradient.gradetracking.gradesummary.course.dto.CourseGradeSimpleSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeFullSummary;
+import com.jpin.gradient.gradetracking.gradesummary.summary.CourseGradeSimpleSummary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/grade-summaries/courses")
+@RequestMapping("/api/grade-summaries/course")
 public class CourseGradeSummaryController {
 
     private final CourseGradeSummaryService courseGradeSummaryService;

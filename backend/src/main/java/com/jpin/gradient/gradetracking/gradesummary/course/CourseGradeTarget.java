@@ -1,4 +1,4 @@
-package com.jpin.gradient.gradetracking.gradesummary.course.dto;
+package com.jpin.gradient.gradetracking.gradesummary.course;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

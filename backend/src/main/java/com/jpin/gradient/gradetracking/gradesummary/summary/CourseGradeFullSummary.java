@@ -1,5 +1,6 @@
-package com.jpin.gradient.gradetracking.gradesummary.course.dto;
+package com.jpin.gradient.gradetracking.gradesummary.summary;
 
+import com.jpin.gradient.gradetracking.gradesummary.course.CourseGradeTarget;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
